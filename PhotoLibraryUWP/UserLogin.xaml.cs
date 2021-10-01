@@ -13,29 +13,27 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace PhotoLibraryUWP
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class UserLogin : Page
     {
-        public MainPage()
+        public static MainPage Current;
+        public UserLogin()
         {
             this.InitializeComponent();
-          //  Frame.Navigate(typeof(UserLogin));
+            //Cur  rent = this;
         }
 
-        private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void MenuItemsListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
+           
+            var rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(MainPage));
         }
     }
 }
