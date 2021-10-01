@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="PhotoLibraryUWP.UserLogin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PhotoLibraryUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="243" Width="359"
+    >
+
+    <Grid  Name="FrameContainer"  x:FieldModifier="public">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"  />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            
+        </Grid.RowDefinitions>
+        <RelativePanel Grid.Row="0" Height="100">
+            <Image Name="Login"
+                   Source="/Assets/Login.png" 
+                   Height="Auto"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   RelativePanel.AlignVerticalCenterWithPanel="True"
+                   />
+            <Image Name="Logo"
+                   Source="/Assets/Logo.jpg" 
+                   Height="Auto"
+                   RelativePanel.AlignLeftWithPanel="True"
+             />
+
+        </RelativePanel>
+        
+            <RelativePanel Grid.Row="3"   RenderTransformOrigin="0.49,0.536">
+                <ComboBox Name="UsernameComboBox" 
+                      RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                      Height="auto" Width="121"/>
+                <TextBlock Text="Username"  
+                       RelativePanel.LeftOf="UsernameComboBox"
+                       FontSize="16"/>
+
+            </RelativePanel>
+            <RelativePanel Grid.Row="4"  >
+                <PasswordBox Name="PasswordTextBox" 
+                     RelativePanel.AlignHorizontalCenterWithPanel ="True" 
+                     Height="Auto" Width="121"/>
+                <TextBlock Text="Password"  
+                       RelativePanel.LeftOf="PasswordTextBox"
+                       FontSize="16" Width="74" Height="34"
+                       />
+            </RelativePanel >
+            <RelativePanel Grid.Row="6" >
+                <Button Name="LoginButton" Content="Login"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Click="LoginButton_Click" 
+                    Height="auto" Width="77"  >
+
+
+                </Button>
+            </RelativePanel>
+
+          
+    
+    </Grid>
+
+</Page>

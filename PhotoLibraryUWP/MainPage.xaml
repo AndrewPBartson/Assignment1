@@ -9,6 +9,52 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <RelativePanel>
+
+            <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
+            <TextBlock Name="Username"
+                       Text="Welcom User'' ">
+            </TextBlock> 
+            
+        </RelativePanel>
+
+        <SplitView Grid.Row="1"
+                   Name="MySplitView"
+                   DisplayMode="CompactOverlay"
+                   CompactPaneLength="45"
+                   OpenPaneLength="200"
+                   VerticalAlignment="Top">
+            <SplitView.Pane>
+                <ListView Name="MenuItemsListView"
+                          IsItemClickEnabled="True"
+                          ItemClick="MenuItemsListView_ItemClick">
+
+                </ListView>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <MediaElement Name="MyMediaElement" AutoPlay="True" />
+                    <TextBlock Name="Test" Text="All photo" FontSize="24" />
+                    <GridView Grid.Row="1"
+                              Name="PhotoGridView"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemClick="PhotoGridView_ItemClick">
+
+                    </GridView>
+                </Grid>
+            </SplitView.Content>
+
+        </SplitView>
 
     </Grid>
 </Page>
