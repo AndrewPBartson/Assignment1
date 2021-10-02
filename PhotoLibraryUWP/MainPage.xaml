@@ -18,7 +18,7 @@
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
             <TextBlock Name="Username"
-                       Text="Welcom User'' ">
+                       Text="Welcome User!'' ">
             </TextBlock> 
             
         </RelativePanel>
@@ -42,7 +42,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <MediaElement Name="MyMediaElement" AutoPlay="True" />
                     <TextBlock Name="Test" Text="All photo" FontSize="24" />
                     <GridView Grid.Row="1"
                               Name="PhotoGridView"
