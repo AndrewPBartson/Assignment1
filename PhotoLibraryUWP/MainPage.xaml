@@ -19,7 +19,7 @@
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
             <TextBlock Name="Username"
-                       Text="Welcom User'' ">
+                       Text="Welcome User!'' ">
             </TextBlock> 
             
         </RelativePanel>
@@ -55,16 +55,16 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <MediaElement Name="MyMediaElement" AutoPlay="True" />
+                  
                     <CommandBar >
                         <AppBarButton Name="BackButton" Content="Back" />
                         <AppBarButton Name="NewAlbumButton" Content="NewAlbum"  />
                         <AppBarButton Name="DeleteAlbumButton" Content="DeleteAlbum"   />
                         <AppBarButton Name="AddPhotoButton" Content="AddPhoto" />
-                        <AppBarButton Name="RemovePhotoButton" Content="RemovePhoto" />
-                        
+                        <AppBarButton Name="RemovePhotoButton" Content="RemovePhoto" />               
                     </CommandBar>
                     
+                    <TextBlock Name="Test" Text="All photo" FontSize="24" />
                     <GridView Grid.Row="1"
                               Name="PhotoGridView"
                               SelectionMode="None"
