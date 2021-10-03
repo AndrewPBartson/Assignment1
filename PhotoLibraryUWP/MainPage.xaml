@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+     >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -26,15 +27,27 @@
         <SplitView Grid.Row="1"
                    Name="MySplitView"
                    DisplayMode="CompactOverlay"
-                   CompactPaneLength="45"
-                   OpenPaneLength="200"
-                   VerticalAlignment="Top">
-            <SplitView.Pane>
-                <ListView Name="MenuItemsListView"
+                   IsPaneOpen="True"
+                   CompactPaneLength="100"
+                   OpenPaneLength="100"
+                   >
+            <SplitView.Pane >
+               
+                <ListView Name="MainFeatureListview"
                           IsItemClickEnabled="True"
-                          ItemClick="MenuItemsListView_ItemClick">
+                          ItemClick="MainFeatureListview_ItemClick">
+
+                    <ListViewItem Name="MyPhotos" 
+                                  Content="MyPhotos" >
+                        
+                    </ListViewItem>
+                    <ListViewItem Name="MyAlbums" 
+                                  Content="MyAlbums" >
+
+                    </ListViewItem>
 
                 </ListView>
+                
             </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
@@ -42,6 +55,15 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                  
+                    <CommandBar >
+                        <AppBarButton Name="BackButton" Content="Back" />
+                        <AppBarButton Name="NewAlbumButton" Content="NewAlbum"  />
+                        <AppBarButton Name="DeleteAlbumButton" Content="DeleteAlbum"   />
+                        <AppBarButton Name="AddPhotoButton" Content="AddPhoto" />
+                        <AppBarButton Name="RemovePhotoButton" Content="RemovePhoto" />               
+                    </CommandBar>
+                    
                     <TextBlock Name="Test" Text="All photo" FontSize="24" />
                     <GridView Grid.Row="1"
                               Name="PhotoGridView"
