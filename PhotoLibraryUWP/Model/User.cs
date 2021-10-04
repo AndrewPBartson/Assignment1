@@ -9,6 +9,7 @@ namespace PhotoLibraryUWP.Model
     class User
     {
         public string Name { get; set; }
+<<<<<<< Updated upstream
         public List<Album> ListofAlbums { get; set; }
 
         public User()
@@ -16,11 +17,17 @@ namespace PhotoLibraryUWP.Model
             Name = "Swati";
             ListofAlbums = new List<Album>(); 
         }
+=======
+        //public List<Album> ListofAlbums { get; set; }
+        public string Password { get; set; }
+      
+>>>>>>> Stashed changes
 
         public void getAlbum()
         {
 
         }
+<<<<<<< Updated upstream
         
         public void addAlbum (Album newAlbum)
         {
@@ -28,5 +35,17 @@ namespace PhotoLibraryUWP.Model
            
         }
         
+=======
+
+      //  public override User()
+
+
+        //public void addAlbum (Album newAlbum)
+        //{
+        //    ListofAlbums.Add(newAlbum);
+
+        //}
+
+>>>>>>> Stashed changes
     }
 }

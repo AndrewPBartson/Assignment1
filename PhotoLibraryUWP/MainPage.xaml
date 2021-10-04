@@ -19,9 +19,15 @@
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
             <TextBlock Name="Username"
+<<<<<<< Updated upstream
                        Text="Welcome User!'' ">
             </TextBlock> 
             
+=======
+                       Text="Welcome User!{user}">
+            </TextBlock>
+
+>>>>>>> Stashed changes
         </RelativePanel>
 
         <SplitView Grid.Row="1"
@@ -71,6 +77,30 @@
                               IsItemClickEnabled="True"
                               ItemClick="PhotoGridView_ItemClick">
 
+<<<<<<< Updated upstream
+=======
+                    <!--This Gridview is for Album-->
+                    <GridView Grid.Row="1" 
+                              Name="AlbumGridView"
+                              SelectionMode="Multiple"
+                              IsItemClickEnabled="False"
+                              ItemsSource="{x:Bind albumList}"                  
+                              SelectionChanged="AlbumGridView_SelectionChanged"                            
+                              Visibility="Collapsed">
+
+                        <!--<GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Album">
+                                <Grid MinHeight="60" MinWidth="60">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Margin="0,10,20,0"/>
+                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>-->
+>>>>>>> Stashed changes
                     </GridView>
                 </Grid>
             </SplitView.Content>
