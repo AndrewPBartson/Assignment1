@@ -119,10 +119,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Album.cs" />
     <Compile Include="Model\MenuItem.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Photo.cs" />
+    <Compile Include="Model\PhotoManager.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLogin.xaml.cs">
@@ -137,6 +140,60 @@
   <ItemGroup>
     <Content Include="Assets\Login.png" />
     <Content Include="Assets\Logo.jpg" />
+    <Content Include="Assets\Photos\Animals\bear_cubs.jpg" />
+    <Content Include="Assets\Photos\Animals\bear_cubs.png" />
+    <Content Include="Assets\Photos\Animals\chinook.jpg" />
+    <Content Include="Assets\Photos\Animals\chinook.png" />
+    <Content Include="Assets\Photos\Animals\elk.jpg" />
+    <Content Include="Assets\Photos\Animals\elk.png" />
+    <Content Include="Assets\Photos\Animals\foxes.jpg" />
+    <Content Include="Assets\Photos\Animals\foxes.png" />
+    <Content Include="Assets\Photos\Beaches\beach_sunset_people.jpg" />
+    <Content Include="Assets\Photos\Beaches\beach_sunset_people.png" />
+    <Content Include="Assets\Photos\Beaches\hotel_beach.jpg" />
+    <Content Include="Assets\Photos\Beaches\hotel_beach.png" />
+    <Content Include="Assets\Photos\Beaches\oregon.jpg" />
+    <Content Include="Assets\Photos\Beaches\oregon.png" />
+    <Content Include="Assets\Photos\Beaches\rocky_shore.jpg" />
+    <Content Include="Assets\Photos\Beaches\rocky_shore.png" />
+    <Content Include="Assets\Photos\Birds\eagle.jpg" />
+    <Content Include="Assets\Photos\Birds\eagle.png" />
+    <Content Include="Assets\Photos\Birds\raven_closeup.jpg" />
+    <Content Include="Assets\Photos\Birds\raven_closeup.png" />
+    <Content Include="Assets\Photos\Birds\spotted_owl.jpg" />
+    <Content Include="Assets\Photos\Birds\spotted_owl.png" />
+    <Content Include="Assets\Photos\Bridges\benicia.jpg" />
+    <Content Include="Assets\Photos\Bridges\benicia.png" />
+    <Content Include="Assets\Photos\Bridges\golden_gate.jpg" />
+    <Content Include="Assets\Photos\Bridges\golden_gate.png" />
+    <Content Include="Assets\Photos\Bridges\mystic_river.jpg" />
+    <Content Include="Assets\Photos\Bridges\mystic_river.png" />
+    <Content Include="Assets\Photos\Bridges\richmond_san_rafael.jpg" />
+    <Content Include="Assets\Photos\Bridges\richmond_san_rafael.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_blue.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_blue.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_blue_red.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_blue_red.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_fat.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_fat.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_flower.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_flower.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_green_white_black.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_green_white_black.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_orange.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_orange.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_turquoise.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_turquoise.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_white_black_orange.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_white_black_orange.png" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_yellow_red_white.jpg" />
+    <Content Include="Assets\Photos\Butterflies\butterfly_yellow_red_white.png" />
+    <Content Include="Assets\Photos\Cities\hongkong_night.jpg" />
+    <Content Include="Assets\Photos\Cities\hongkong_night.png" />
+    <Content Include="Assets\Photos\Flowers\flowers_veggies.jpg" />
+    <Content Include="Assets\Photos\Flowers\flowers_veggies.png" />
+    <Content Include="Assets\Photos\Trees\redwood_sunrays.jpg" />
+    <Content Include="Assets\Photos\Trees\redwood_sunrays.png" />
     <Content Include="UserInfo.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
