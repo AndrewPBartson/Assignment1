@@ -13,11 +13,6 @@ namespace PhotoLibraryUWP.Model
         {
             var allPhotos = getPhotos();
             photos.Clear();
-            /*foreach (var sound in allSounds)
-            {
-                sounds.Add(sound);
-            }*/
-
             allPhotos.ForEach(photo => photos.Add(photo));
         }
 
