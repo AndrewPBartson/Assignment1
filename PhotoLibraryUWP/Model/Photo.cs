@@ -8,9 +8,14 @@ namespace PhotoLibraryUWP.Model
 {
     public enum PhotoCategory
     {
-        Art,
-        Celebration,
-        Nature
+        Animals,
+        Beaches,
+        Birds,
+        Bridges,
+        Butterflies,
+        Cities,
+        Flowers,
+        Trees
     }
 
     public class Photo
@@ -23,7 +28,7 @@ namespace PhotoLibraryUWP.Model
         {
             Name = name;
             Category = category;
-            PhotoPath = $"/Assets/{category}/{name}.jpg"; 
+            PhotoPath = $"/Assets/Photos/{category}/{name}.png"; 
         }
 
     }
