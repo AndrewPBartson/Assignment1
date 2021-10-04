@@ -20,51 +20,113 @@ using PhotoLibraryUWP.Model;
 
 namespace PhotoLibraryUWP
 {
-   
+
     public sealed partial class MainPage : Page
     {
 
         private List<MenuItem> MenuItems;
+
+        /// <summary>
+        /// Sample observable collection of albums
+        /// </summary>
+        private ObservableCollection<Album> albumList;
+
+        /// <summary>
+        /// Sample observable collection of Photos
+        /// </summary>
+        private ObservableCollection<Photo> photoList;
+
         public MainPage()
         {
             this.InitializeComponent();
             //MenuItems = new List<MenuItem>();
             //MenuItems.Add()
-        }
 
-        private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+            // This is required as the Command bar opens on the First click and then the buttons can be clicked.
+            // Once we add the Icons and Label to the CommandBar this will not be needed.
+            MainCommandBar.IsOpen = true;
 
-        }
+            albumList = new ObservableCollection<Album>();
 
-        
+            // Sample albums added to Album list.
+            albumList.Add(new Album("Album1", "Mumbai"));
+            albumList.Add(new Album("Album2", "Delhi"));
 
-       
-
-        private void PhotosButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-
-
-        }
-
-        private void AlbumsButton_OnClick(object sender, RoutedEventArgs e)
-        {
-
+            //set the selected count to zero initially
+            SelectedItemCountTextBlock.Text = "0";
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
         {
-           
+
             var ClickedItem = (string)e.ClickedItem;
 
             if (ClickedItem == "MyPhotos")
-            { 
-                //call show photos in PhotoGrid
+            {
+                AlbumGridView.Visibility = Visibility.Collapsed;
+                PhotoGridView.Visibility = Visibility.Visible;
             }
-            else if(ClickedItem == "MyAlbums")
-            { 
+            else if (ClickedItem == "MyAlbums")
+            {
+                AlbumGridView.Visibility = Visibility.Visible;
+                PhotoGridView.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void ClosePopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Popup should close on "Close" button click
+            if (NewAlbumPopup.IsOpen)
+            {
+                NewAlbumPopup.IsOpen = false;
+            }
+        }
+
+        private void AlbumGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
+            SelectedItemCountTextBlock.Text = AlbumGridView.SelectedItems.Count.ToString();
+            DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
+            EditAlbumButton.IsEnabled = AlbumGridView.SelectedItems.Count == 1;
+        }
+
+        private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedItemCountTextBlock.Text = PhotoGridView.SelectedItems.Count.ToString();
+        }
+
+        private void CreateAlbumButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(AlbumNameTxt.Text) && !string.IsNullOrWhiteSpace(AlbumDescriptionTxt.Text))
+            {
+                albumList.Add(new Album(AlbumNameTxt.Text, AlbumDescriptionTxt.Text));
+                AlbumNameTxt.Text = "";
+                AlbumDescriptionTxt.Text = "";
+
+                if (AlbumGridView.Visibility != Visibility.Visible)
+                {
+                    AlbumGridView.Visibility = Visibility.Visible;
+                    PhotoGridView.Visibility = Visibility.Collapsed;
+                }
+
+                if (NewAlbumPopup.IsOpen)
+                {
+                    NewAlbumPopup.IsOpen = false;
+                }
+            }
+
+        }
+
+        private void NewAlbumButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NewAlbumPopup.IsOpen)
+            {
+                NewAlbumPopup.IsOpen = true;
+            }
+        }
+
+        private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

@@ -9,12 +9,12 @@ namespace PhotoLibraryUWP.Model
     class User
     {
         public string Name { get; set; }
-        public List<Album> ListofAlbums { get; set; }
+        //public List<Album> ListofAlbums { get; set; }
 
         public User()
         {
             Name = "Swati";
-            ListofAlbums = new List<Album>(); 
+            //ListofAlbums = new List<Album>(); 
         }
 
         public void getAlbum()
@@ -22,11 +22,11 @@ namespace PhotoLibraryUWP.Model
 
         }
         
-        public void addAlbum (Album newAlbum)
-        {
-            ListofAlbums.Add(newAlbum);
+        //public void addAlbum (Album newAlbum)
+        //{
+        //    ListofAlbums.Add(newAlbum);
            
-        }
+        //}
         
     }
 }

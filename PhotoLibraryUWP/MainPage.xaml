@@ -3,8 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PhotoLibraryUWP"
+    xmlns:model="using:PhotoLibraryUWP.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
      >
@@ -20,8 +21,8 @@
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
             <TextBlock Name="Username"
                        Text="Welcome User!'' ">
-            </TextBlock> 
-            
+            </TextBlock>
+
         </RelativePanel>
 
         <SplitView Grid.Row="1"
@@ -32,14 +33,14 @@
                    OpenPaneLength="100"
                    >
             <SplitView.Pane >
-               
+
                 <ListView Name="MainFeatureListview"
                           IsItemClickEnabled="True"
                           ItemClick="MainFeatureListview_ItemClick">
 
                     <ListViewItem Name="MyPhotos" 
                                   Content="MyPhotos" >
-                        
+
                     </ListViewItem>
                     <ListViewItem Name="MyAlbums" 
                                   Content="MyAlbums" >
@@ -47,7 +48,7 @@
                     </ListViewItem>
 
                 </ListView>
-                
+
             </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
@@ -55,27 +56,76 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                  
-                    <CommandBar >
-                        <AppBarButton Name="BackButton" Content="Back" />
-                        <AppBarButton Name="NewAlbumButton" Content="NewAlbum"  />
-                        <AppBarButton Name="DeleteAlbumButton" Content="DeleteAlbum"   />
-                        <AppBarButton Name="AddPhotoButton" Content="AddPhoto" />
-                        <AppBarButton Name="RemovePhotoButton" Content="RemovePhoto" />               
-                    </CommandBar>
-                    
-                    <TextBlock Name="Test" Text="All photo" FontSize="24" />
-                    <GridView Grid.Row="1"
-                              Name="PhotoGridView"
-                              SelectionMode="None"
-                              IsItemClickEnabled="True"
-                              ItemClick="PhotoGridView_ItemClick">
 
+                    <CommandBar ClosedDisplayMode="Compact" x:Name="MainCommandBar">
+                        <CommandBar.Content>
+                            <RelativePanel>
+                            <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Width="400" Margin="0,0,20,0"/>
+                                <TextBlock Name="SelectedItemCountTextBlock" VerticalAlignment="Center" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="15"  Margin="0,0,20,0" RelativePanel.RightOf="HeaderTextBlock" HorizontalAlignment="Right"/>
+                            </RelativePanel>
+                        </CommandBar.Content>
+                        <AppBarButton Name="BackButton" Content="Back" />
+                        <AppBarButton Name="NewAlbumButton" Content="New Album" Click="NewAlbumButton_Click" />
+                        <AppBarButton Name="EditAlbumButton" Content="Edit Album" Click="EditAlbumButton_Click" />
+                        <AppBarButton Name="DeleteAlbumButton" Content="Delete Album" />
+                        <AppBarButton Name="AddPhotoButton" Content="Add Photo" />
+                        <AppBarButton Name="RemovePhotoButton" Content="Remove Photo" />
+                    </CommandBar>
+
+                    <!--This is the Gridview for PhotoList-->
+                    <GridView Grid.Row="1" 
+                              Name="PhotoGridView"
+                              SelectionMode="Multiple"
+                              IsItemClickEnabled="False"                                        
+                              SelectionChanged="PhotoGridView_SelectionChanged"
+                              Visibility="Visible">
+                        <TextBlock Text="This is photo list gridview" />
+                    </GridView>
+
+                    <!--This Gridview is for Album-->
+                    <GridView Grid.Row="1" 
+                              Name="AlbumGridView"
+                              SelectionMode="Multiple"
+                              IsItemClickEnabled="False"
+                              ItemsSource="{x:Bind albumList}"                  
+                              SelectionChanged="AlbumGridView_SelectionChanged"                            
+                              Visibility="Collapsed">
+
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Album">
+                                <Grid MinHeight="60" MinWidth="60">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Margin="0,10,20,0"/>
+                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
                     </GridView>
                 </Grid>
             </SplitView.Content>
 
         </SplitView>
+
+        <!--Below code is for Add album Popup window-->
+        <Popup HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2"
+                   x:Name="NewAlbumPopup" Width="500" Height="500" >
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}"
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        BorderThickness="4" Width="500" Height="500">
+                <StackPanel Orientation="Vertical" >
+                    <TextBox x:Name="AlbumNameTxt" Header="Album Name" Width="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <TextBox x:Name="AlbumDescriptionTxt" Header="Description"  TextWrapping="Wrap" MaxHeight="150" MinHeight="100" AcceptsReturn="True"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto" Width="400 " HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <RelativePanel>
+                        <Button x:Name="CreateAlbumButton" Content="Create Album" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CreateAlbumButton_Click" FontSize="25" Margin="30,30,0,0" Padding="10" />
+                        <Button x:Name="ClosePopupButton" Content="Close" HorizontalAlignment="Center" RelativePanel.RightOf="CreateAlbumButton" VerticalAlignment="Center" Click="ClosePopupButton_Click" FontSize="25" Margin="50,30,0,0" Padding="10"/>
+                    </RelativePanel>
+                </StackPanel>
+            </Border>
+        </Popup>
 
     </Grid>
 </Page>
