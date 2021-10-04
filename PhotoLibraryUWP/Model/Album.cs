@@ -12,7 +12,7 @@ namespace PhotoLibraryUWP.Model
         public string Description { get; set; }
 
         List<Photo> ListofPhotos { get; set; }
-        Photo coverPhoto { get; set; }
+        public Photo CoverPhoto { get; set; }
 
         public Album(string name, string description)
         {
@@ -21,9 +21,10 @@ namespace PhotoLibraryUWP.Model
             ListofPhotos = new List<Photo>();
         }
 
-        public void addPhoto(Photo photo)
+        public void addPhotos(List<Photo> photos)
         {
-            ListofPhotos.Add(photo);
+            ListofPhotos.AddRange(photos);
+            CoverPhoto = ListofPhotos.FirstOrDefault();
         }
     }
 }

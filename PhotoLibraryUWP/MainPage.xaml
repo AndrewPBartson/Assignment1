@@ -66,9 +66,9 @@
                         </CommandBar.Content>
                         <AppBarButton Name="BackButton" Content="Back" />
                         <AppBarButton Name="NewAlbumButton" Content="New Album" Click="NewAlbumButton_Click" />
-                        <AppBarButton Name="EditAlbumButton" Content="Edit Album" Click="EditAlbumButton_Click" />
+                        <AppBarButton Name="EditAlbumButton" Content="Edit Save Album" Click="EditAlbumButton_Click" />
                         <AppBarButton Name="DeleteAlbumButton" Content="Delete Album" />
-                        <AppBarButton Name="AddPhotoButton" Content="Add Photo" />
+                        <AppBarButton Name="AddPhotoButton" Content="Add Photo" Click="AddPhotoButton_Click"/>
                         <AppBarButton Name="RemovePhotoButton" Content="Remove Photo" />
                     </CommandBar>
 
@@ -76,18 +76,25 @@
                     <GridView Grid.Row="1" 
                               Name="PhotoGridView"
                               SelectionMode="Multiple"
-                              IsItemClickEnabled="False"                                        
+                              IsItemClickEnabled="True"   
+                              ItemsSource="{x:Bind photoList}" 
+                              ItemClick="PhotoGridView_ItemClick"
                               SelectionChanged="PhotoGridView_SelectionChanged"
-                              Visibility="Visible">
-                        <TextBlock Text="This is photo list gridview" />
+                              Visibility="Collapsed">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Photo">
+                                <Image Name ="MyPhoto" Height="112" Width="101" Source="{x:Bind PhotoPath}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
                     </GridView>
 
                     <!--This Gridview is for Album-->
                     <GridView Grid.Row="1" 
                               Name="AlbumGridView"
                               SelectionMode="Multiple"
-                              IsItemClickEnabled="False"
-                              ItemsSource="{x:Bind albumList}"                  
+                              IsItemClickEnabled="True"
+                              ItemsSource="{x:Bind albumList}"    
+                              ItemClick="AlbumGridView_ItemClick"
                               SelectionChanged="AlbumGridView_SelectionChanged"                            
                               Visibility="Collapsed">
 

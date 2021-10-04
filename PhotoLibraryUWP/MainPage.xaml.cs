@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using PhotoLibraryUWP.Model;
+using System.Diagnostics;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -23,9 +24,6 @@ namespace PhotoLibraryUWP
 
     public sealed partial class MainPage : Page
     {
-
-        private List<MenuItem> MenuItems;
-
         /// <summary>
         /// Sample observable collection of albums
         /// </summary>
@@ -36,17 +34,19 @@ namespace PhotoLibraryUWP
         /// </summary>
         private ObservableCollection<Photo> photoList;
 
+        private Album currentAlbum;
+        private Photo currentPhoto;
+
         public MainPage()
         {
             this.InitializeComponent();
-            //MenuItems = new List<MenuItem>();
-            //MenuItems.Add()
-
+            
             // This is required as the Command bar opens on the First click and then the buttons can be clicked.
             // Once we add the Icons and Label to the CommandBar this will not be needed.
             MainCommandBar.IsOpen = true;
 
             albumList = new ObservableCollection<Album>();
+            photoList = new ObservableCollection<Photo>();
 
             // Sample albums added to Album list.
             albumList.Add(new Album("Album1", "Mumbai"));
@@ -127,7 +127,27 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
+            var listOfPhotos = new List<Photo>();
+            listOfPhotos.Add(currentPhoto);
+            currentAlbum.addPhotos(listOfPhotos);
+            //Debug.WriteLine("Album Saved" + currentAlbum.Name + currentAlbum.Description + currentPhoto.Name);
+        }
 
+        private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            AlbumGridView.Visibility = Visibility.Collapsed;
+            PhotoGridView.Visibility = Visibility.Visible;
+            PhotoManager.GetAllPhotos(photoList);
+        }
+
+        private void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            currentAlbum = (Album)e.ClickedItem;
+        }
+
+        private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            currentPhoto = (Photo)e.ClickedItem;
         }
     }
 }
