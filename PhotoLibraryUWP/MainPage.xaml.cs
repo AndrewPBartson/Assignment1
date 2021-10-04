@@ -36,6 +36,7 @@ namespace PhotoLibraryUWP
 
         private Album currentAlbum;
         private Photo currentPhoto;
+        private List<Photo> selectedPhotos;
 
         public MainPage()
         {
@@ -47,7 +48,7 @@ namespace PhotoLibraryUWP
 
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
-
+            
             // Sample albums added to Album list.
             albumList.Add(new Album("Album1", "Mumbai"));
             albumList.Add(new Album("Album2", "Delhi"));
@@ -127,10 +128,7 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            var listOfPhotos = new List<Photo>();
-            listOfPhotos.Add(currentPhoto);
-            currentAlbum.addPhotos(listOfPhotos);
-            //Debug.WriteLine("Album Saved" + currentAlbum.Name + currentAlbum.Description + currentPhoto.Name);
+            
         }
 
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
@@ -143,11 +141,18 @@ namespace PhotoLibraryUWP
         private void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentAlbum = (Album)e.ClickedItem;
+            selectedPhotos = new List<Photo>();
         }
 
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentPhoto = (Photo)e.ClickedItem;
+            selectedPhotos.Add(currentPhoto);
+        }
+
+        private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentAlbum.addPhotos(selectedPhotos);
         }
     }
 }

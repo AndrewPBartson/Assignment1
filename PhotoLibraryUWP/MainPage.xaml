@@ -66,7 +66,8 @@
                         </CommandBar.Content>
                         <AppBarButton Name="BackButton" Content="Back" />
                         <AppBarButton Name="NewAlbumButton" Content="New Album" Click="NewAlbumButton_Click" />
-                        <AppBarButton Name="EditAlbumButton" Content="Edit Save Album" Click="EditAlbumButton_Click" />
+                        <AppBarButton Name="EditAlbumButton" Content="Edit Album" Click="EditAlbumButton_Click" />
+                        <AppBarButton Name="SaveAlbumButton" Content="Save Album" Click="SaveAlbumButton_Click" />
                         <AppBarButton Name="DeleteAlbumButton" Content="Delete Album" />
                         <AppBarButton Name="AddPhotoButton" Content="Add Photo" Click="AddPhotoButton_Click"/>
                         <AppBarButton Name="RemovePhotoButton" Content="Remove Photo" />
