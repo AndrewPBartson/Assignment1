@@ -57,20 +57,20 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <CommandBar ClosedDisplayMode="Compact" x:Name="MainCommandBar">
+                    <CommandBar Margin="0,10,0,0" Height="Auto" x:Name="MainCommandBar">
                         <CommandBar.Content>
                             <RelativePanel>
                             <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Width="400" Margin="0,0,20,0"/>
                                 <TextBlock Name="SelectedItemCountTextBlock" VerticalAlignment="Center" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="15"  Margin="0,0,20,0" RelativePanel.RightOf="HeaderTextBlock" HorizontalAlignment="Right"/>
                             </RelativePanel>
                         </CommandBar.Content>
-                        <AppBarButton Name="BackButton" Content="Back" />
-                        <AppBarButton Name="NewAlbumButton" Content="New Album" Click="NewAlbumButton_Click" />
-                        <AppBarButton Name="EditAlbumButton" Content="Edit Album" Click="EditAlbumButton_Click" />
-                        <AppBarButton Name="SaveAlbumButton" Content="Save Album" Click="SaveAlbumButton_Click" />
-                        <AppBarButton Name="DeleteAlbumButton" Content="Delete Album" Click="DeleteAlbumButton_Click" />
-                        <AppBarButton Name="AddPhotoButton" Content="Add Photo" Click="AddPhotoButton_Click"/>
-                        <AppBarButton Name="RemovePhotoButton" Content="Remove Photo" />
+                        <AppBarButton Icon="Back" Name="BackButton" Label="Back" />
+                        <AppBarButton Icon="NewFolder" Name="NewAlbumButton" Label="New Album" Click="NewAlbumButton_Click" />
+                        <AppBarButton Icon="Edit" Name="EditAlbumButton" Label="Edit Album" Click="EditAlbumButton_Click" />
+                        <AppBarButton Icon="Save" Name="SaveAlbumButton" Label="Save Album" Click="SaveAlbumButton_Click" />
+                        <AppBarButton Icon="Delete" Name="DeleteAlbumButton" Label="Delete Album" Click="DeleteAlbumButton_Click" />
+                        <AppBarButton Icon="Add" Name="AddPhotoButton" Label="Add Photo" Click="AddPhotoButton_Click"/>
+                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove Photo" />
                     </CommandBar>
 
                     <!--This is the Gridview for PhotoList-->
@@ -92,7 +92,7 @@
                     <!--This Gridview is for Album-->
                     <GridView Grid.Row="1" 
                               Name="AlbumGridView"
-                              SelectionMode="Multiple"
+                              SelectionMode="Single"
                               IsItemClickEnabled="True"
                               ItemsSource="{x:Bind albumList}"    
                               ItemClick="AlbumGridView_ItemClick"
