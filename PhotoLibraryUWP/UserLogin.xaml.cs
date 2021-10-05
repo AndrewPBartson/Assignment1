@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using PhotoLibraryUWP.Model;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,9 +33,45 @@ namespace PhotoLibraryUWP
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-           
-            var rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(MainPage));
+            String Username;
+            String Password;
+
+            Username = UsernameTextBox.Text.Trim();
+            Password = PasswordTextBox.Password.Trim();
+
+
+            if ((Username == "") || (Password == ""))
+            {
+                string message = "Username or Password are Empty";
+
+                // Initialize a new MessageDialog instance
+                MessageDialog messageDialog = new MessageDialog(message, "Authentication Error");
+                
+
+                messageDialog.ShowAsync();
+
+                return;
+
+            }
+
+
+            UserManagement Usermatch = new UserManagement();
+            if (Usermatch.IsvalidUser(Username, Password))
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(MainPage));
+            }
+            else {
+                string message = "Username or Password does not exist";
+
+                // Initialize a new MessageDialog instance
+                MessageDialog messageDialog = new MessageDialog(message, "Authentication Error");
+
+
+                messageDialog.ShowAsync();
+
+                return;
+            }
         }
     }
 }

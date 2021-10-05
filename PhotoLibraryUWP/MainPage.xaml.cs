@@ -154,5 +154,11 @@ namespace PhotoLibraryUWP
         {
             currentAlbum.addPhotos(selectedPhotos);
         }
+
+        private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+
+        }
     }
 }

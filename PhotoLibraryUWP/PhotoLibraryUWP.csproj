@@ -126,6 +126,7 @@
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\PhotoManager.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Model\UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLogin.xaml.cs">
       <DependentUpon>UserLogin.xaml</DependentUpon>
@@ -224,6 +225,12 @@
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2125</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Files\UserInformation.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
