@@ -42,17 +42,34 @@ namespace PhotoLibraryUWP
         {
             this.InitializeComponent();
             
-            // This is required as the Command bar opens on the First click and then the buttons can be clicked.
-            // Once we add the Icons and Label to the CommandBar this will not be needed.
-            MainCommandBar.IsOpen = true;
-
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
-            
-            // Sample albums added to Album list.
-            albumList.Add(new Album("Album1", "Mumbai"));
-            albumList.Add(new Album("Album2", "Delhi"));
 
+            // Sample albums added to Album list.
+            var album1 = new Album("Album1", "Mumbai");
+            albumList.Add(album1);
+
+            var album2 = new Album("Album2", "Washington");          
+            albumList.Add(album2);
+
+            var album3 = new Album("Album3", "Oregon");
+            albumList.Add(album3);
+
+            album1.ListofPhotos.Add(new Photo("bear_cubs", PhotoCategory.Animals));
+            album1.ListofPhotos.Add(new Photo("chinook", PhotoCategory.Animals));
+            album1.ListofPhotos.Add(new Photo("elk", PhotoCategory.Animals));
+            album1.ListofPhotos.Add(new Photo("foxes", PhotoCategory.Animals));
+
+            album2.ListofPhotos.Add(new Photo("beach_sunset_people", PhotoCategory.Beaches));
+            album2.ListofPhotos.Add(new Photo("hotel_beach", PhotoCategory.Beaches));
+            album2.ListofPhotos.Add(new Photo("oregon", PhotoCategory.Beaches));
+            album2.ListofPhotos.Add(new Photo("rocky_shore", PhotoCategory.Beaches));
+
+            album3.ListofPhotos.Add(new Photo("eagle", PhotoCategory.Birds));
+            album3.ListofPhotos.Add(new Photo("raven_closeup", PhotoCategory.Birds));
+            album3.ListofPhotos.Add(new Photo("spotted_owl", PhotoCategory.Birds));
+
+            
             //set the selected count to zero initially
             SelectedItemCountTextBlock.Text = "0";
         }
@@ -66,11 +83,16 @@ namespace PhotoLibraryUWP
             {
                 AlbumGridView.Visibility = Visibility.Collapsed;
                 PhotoGridView.Visibility = Visibility.Visible;
+                photoList.Clear();
+                PhotoManager.GetAllPhotos(photoList);
+                ClearAlbumGridViewSelection();
+                HeaderTextBlock.Text = "My Photos";
             }
             else if (ClickedItem == "MyAlbums")
             {
                 AlbumGridView.Visibility = Visibility.Visible;
                 PhotoGridView.Visibility = Visibility.Collapsed;
+                HeaderTextBlock.Text = "My Albums";
             }
         }
 
@@ -128,7 +150,20 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            AlbumGridView.Visibility = Visibility.Collapsed;
+            PhotoGridView.Visibility = Visibility.Visible;
+
+            if (AlbumGridView.SelectedItem != null)
+            {
+                currentAlbum = (Album)AlbumGridView.SelectedItem;
+                HeaderTextBlock.Text = currentAlbum.Name;
+                photoList.Clear();
+                foreach (var photo in currentAlbum.ListofPhotos)
+                {
+                    photoList.Add(photo);
+                }
+            }
+
         }
 
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
@@ -147,18 +182,31 @@ namespace PhotoLibraryUWP
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentPhoto = (Photo)e.ClickedItem;
+            if(selectedPhotos == null)
+            {
+                selectedPhotos = new List<Photo>();
+            }
             selectedPhotos.Add(currentPhoto);
         }
 
         private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
             currentAlbum.addPhotos(selectedPhotos);
+           
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
            
 
+        }
+
+        private void ClearAlbumGridViewSelection()
+        {
+            if (AlbumGridView.SelectedItems != null && AlbumGridView.SelectedItems.Count > 0)
+            {
+                AlbumGridView.SelectedItem = null;
+            }
         }
     }
 }

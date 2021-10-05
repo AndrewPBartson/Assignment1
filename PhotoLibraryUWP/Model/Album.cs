@@ -11,7 +11,7 @@ namespace PhotoLibraryUWP.Model
         public string Name { get; set; }
         public string Description { get; set; }
 
-        List<Photo> ListofPhotos { get; set; }
+        public List<Photo> ListofPhotos { get; set; }
         public Photo CoverPhoto { get; set; }
 
         public Album(string name, string description)
