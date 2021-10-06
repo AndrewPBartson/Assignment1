@@ -30,6 +30,9 @@ namespace PhotoLibraryUWP.Model
             Category = category;
             PhotoPath = $"/Assets/Photos/{category}/{name}.png"; 
         }
+        public Photo()
+        {
+        }
 
     }
 }

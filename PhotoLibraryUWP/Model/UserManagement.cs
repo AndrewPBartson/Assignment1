@@ -11,9 +11,8 @@ namespace PhotoLibraryUWP.Model
 {
     class UserManagement
     {
+        
 
-
-        //public async void UserLoginInformation()
         public List<User> UserLoginInformation()
         {
             string Filepath = $".\\Files\\UserInformation.csv";
@@ -35,17 +34,7 @@ namespace PhotoLibraryUWP.Model
             return userinfo;
         }
 
-        public User FindingUser(string Username, string password) 
-        {
-            User CurrentUser = new User();
-        //    UserLoginInformation();
-        //    //UserInfoList.Any(CurrentUser => CurrentUser.Name == Username);
-        //    CurrentUser = UserInfoList.Select(CurrentUser => CurrentUser.Name == Username && CurrentUser.Password == password ;
-        //    if (UserInfoList.Select(CurrentUser => CurrentUser.Name == Username && CurrentUser.Password == password))
-        //    {
-                return(CurrentUser);
-        //    }
-        }
+        
 
         public Boolean IsvalidUser(string Username, string password)
         {
@@ -53,6 +42,7 @@ namespace PhotoLibraryUWP.Model
             UserLoginInformation();
             if (UserInfoList.Any(CurrentUser => CurrentUser.Name == Username && CurrentUser.Password == password))
             {
+                //CurrentUser = Username;
                 return (true);
             }
             else

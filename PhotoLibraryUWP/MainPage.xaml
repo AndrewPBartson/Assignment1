@@ -6,22 +6,26 @@
     xmlns:model="using:PhotoLibraryUWP.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
      >
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+    <Grid> 
+        <Grid.RowDefinitions> 
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <RelativePanel>
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
-            <TextBlock Name="Username"
-                       Text="Welcome User!'' ">
-            </TextBlock>
+          
+            <!--<TextBlock Name="Username"
+                       Text="{Binding Source={x:Static model:UserManagement.CurrentUser}}">-->
+            
+                                 
+            <!--</TextBlock>-->
 
         </RelativePanel>
 
@@ -37,10 +41,11 @@
                 <ListView Name="MainFeatureListview"
                           IsItemClickEnabled="True"
                           ItemClick="MainFeatureListview_ItemClick">
-
+                    <ListViewItem Name="AllPhotos" 
+                                  Content="AllPhotos" >
+                    </ListViewItem>
                     <ListViewItem Name="MyPhotos" 
-                                  Content="MyPhotos" >
-
+                                 Content="MyPhotos" >
                     </ListViewItem>
                     <ListViewItem Name="MyAlbums" 
                                   Content="MyAlbums" >

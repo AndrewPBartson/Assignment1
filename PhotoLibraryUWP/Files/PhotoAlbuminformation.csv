@@ -1,0 +1,5 @@
+Username,AlbumName,AlbumDescription,Photoname,PhotoPath,Category,iscoverphoto
+Filicity,Test,TestDescription,C:\Users\felen\OneDrive\Documents\GitHub\Assignments\Assignment1\PhotoLibraryUWP\Assets\Photos\Animals,bear_cubs.jpg,1,true
+Filicity,Test,TestDescription,C:\Users\felen\OneDrive\Documents\GitHub\Assignments\Assignment1\PhotoLibraryUWP\Assets\Photos\Beaches\beach_sunset_people,beach_sunset_people.png,2,false
+Filicity,Test2,TestDescription2,C:\Users\felen\OneDrive\Documents\GitHub\Assignments\Assignment1\PhotoLibraryUWP\Assets\Photos\Beaches,hotel_beach.png,2,false
+Filicity,Test2,TestDescription2,C:\Users\felen\OneDrive\Documents\GitHub\Assignments\Assignment1\PhotoLibraryUWP\Assets\Photos\Cities,hongkong_night.png,6,true

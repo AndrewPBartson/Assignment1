@@ -21,9 +21,11 @@ using System.Diagnostics;
 
 namespace PhotoLibraryUWP
 {
-
+    
     public sealed partial class MainPage : Page
     {
+
+        
         /// <summary>
         /// Sample observable collection of albums
         /// </summary>
@@ -40,8 +42,11 @@ namespace PhotoLibraryUWP
 
         public MainPage()
         {
+           // string Currentuser = UserManagement.CurrentUser;
+
             this.InitializeComponent();
-            
+
+          
             // This is required as the Command bar opens on the First click and then the buttons can be clicked.
             // Once we add the Icons and Label to the CommandBar this will not be needed.
             MainCommandBar.IsOpen = true;
@@ -55,17 +60,35 @@ namespace PhotoLibraryUWP
 
             //set the selected count to zero initially
             SelectedItemCountTextBlock.Text = "0";
+
+
+            //Retriving all Photos From Asset
+          
+            //PhotoManager.GetAllPhotos(photoList);
+         
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
         {
 
             var ClickedItem = (string)e.ClickedItem;
-
-            if (ClickedItem == "MyPhotos")
+            if (ClickedItem == "AllPhotos")
+            {
+                PhotoManager.GetAllPhotos(photoList);
+                AlbumGridView.Visibility = Visibility.Collapsed;
+                PhotoGridView.Visibility = Visibility.Visible;
+                PhotoGridView.IsItemClickEnabled = false;
+               // PhotoGridView.IsMultiSelectCheckBoxEnabled = false;
+               // PhotoGridView.IsEnabled = false;
+                
+             
+            }
+            else if (ClickedItem == "MyPhotos")
             {
                 AlbumGridView.Visibility = Visibility.Collapsed;
                 PhotoGridView.Visibility = Visibility.Visible;
+                PhotoManager.GetMyPhotos(photoList);
+
             }
             else if (ClickedItem == "MyAlbums")
             {
@@ -139,7 +162,7 @@ namespace PhotoLibraryUWP
         }
 
         private void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        { 
             currentAlbum = (Album)e.ClickedItem;
             selectedPhotos = new List<Photo>();
         }
@@ -152,7 +175,8 @@ namespace PhotoLibraryUWP
 
         private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            currentAlbum.addPhotos(selectedPhotos);
+            PhotoAlbumInformation newAlbum = new PhotoAlbumInformation();
+           
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
@@ -160,5 +184,7 @@ namespace PhotoLibraryUWP
            
 
         }
+
+       
     }
 }

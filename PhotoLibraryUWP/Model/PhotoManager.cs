@@ -16,6 +16,15 @@ namespace PhotoLibraryUWP.Model
             allPhotos.ForEach(photo => photos.Add(photo));
         }
 
+        public static void GetMyPhotos(ObservableCollection<Photo> photos)
+        {
+            PhotoAlbumInformation MyPhoto = new PhotoAlbumInformation();
+            var allPhotos = MyPhoto.GetMyPhotos();
+            photos.Clear();
+            allPhotos.ForEach(photo => photos.Add(photo));
+        }
+
+
         public static void getPhotosByCategory(ObservableCollection<Photo> photos, PhotoCategory category)
         {
             var allPhotos = getPhotos();
@@ -23,6 +32,10 @@ namespace PhotoLibraryUWP.Model
             photos.Clear();
             filteredPhotos.ForEach(photo => photos.Add(photo));
         }
+        
+
+
+
         private static List<Photo> getPhotos()
         {
             var photos = new List<Photo>();
