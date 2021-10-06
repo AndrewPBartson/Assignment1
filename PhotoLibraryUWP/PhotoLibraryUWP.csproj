@@ -123,6 +123,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\AlbumManager.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\PhotoManager.cs" />
     <Compile Include="Model\User.cs" />
@@ -192,6 +193,7 @@
     <Content Include="Assets\Photos\Cities\hongkong_night.png" />
     <Content Include="Assets\Photos\Flowers\flowers_veggies.jpg" />
     <Content Include="Assets\Photos\Flowers\flowers_veggies.png" />
+    <Content Include="Assets\Photos\None\NoPhoto.png" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.jpg" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.png" />
     <Content Include="Properties\Default.rd.xml" />
@@ -221,6 +223,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2125</Version>

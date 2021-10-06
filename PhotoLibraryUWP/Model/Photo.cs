@@ -15,7 +15,8 @@ namespace PhotoLibraryUWP.Model
         Butterflies,
         Cities,
         Flowers,
-        Trees
+        Trees,
+        None
     }
 
     public class Photo

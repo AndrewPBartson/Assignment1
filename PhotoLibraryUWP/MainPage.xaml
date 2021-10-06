@@ -106,8 +106,9 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Margin="0,10,20,0"/>
-                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>
+                                    <Image Name ="MyAlbum" Height="112" Width="101" Source="{x:Bind CoverPhoto.PhotoPath}"/>
+                                    <!--<TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row ="1" Margin="0,10,20,0"/>-->
+                                    <!--<TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>-->
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -130,6 +131,24 @@
                     <RelativePanel>
                         <Button x:Name="CreateAlbumButton" Content="Create Album" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CreateAlbumButton_Click" FontSize="25" Margin="30,30,0,0" Padding="10" />
                         <Button x:Name="ClosePopupButton" Content="Close" HorizontalAlignment="Center" RelativePanel.RightOf="CreateAlbumButton" VerticalAlignment="Center" Click="ClosePopupButton_Click" FontSize="25" Margin="50,30,0,0" Padding="10"/>
+                    </RelativePanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <!--Below code is for Edit album Popup window-->
+        <Popup HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2"
+                   x:Name="EditAlbumPopup" Width="500" Height="500" >
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}"
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        BorderThickness="4" Width="500" Height="500">
+                <StackPanel Orientation="Vertical" >
+                    <TextBox Name="AlbumNewNameTxt" Header="Album New Name" Width="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <TextBox Name="AlbumNewDescriptionTxt" Header="New Description"  TextWrapping="Wrap" MaxHeight="150" MinHeight="100" AcceptsReturn="True"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto" Width="400 " HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <RelativePanel>
+                        <Button Name="EditAlbumDetailsButton" Content="Edit Album Details" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditAlbumDetailsButton_Click" FontSize="25" Margin="30,30,0,0" Padding="10" />
+                        <Button Name="CloseEditPopupButton" Content="Close" HorizontalAlignment="Center" RelativePanel.RightOf="EditAlbumDetailsButton" VerticalAlignment="Center" Click="CloseEditPopupButton_Click" FontSize="25" Margin="50,30,0,0" Padding="10"/>
                     </RelativePanel>
                 </StackPanel>
             </Border>

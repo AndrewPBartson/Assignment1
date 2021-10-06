@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.IO;
+using System.Collections.ObjectModel;
+
+namespace PhotoLibraryUWP.Model
+{
+    class AlbumManager
+    {
+        public static void addPhotos(List<Photo> photos, Album album)
+        {
+            album.ListofPhotos.AddRange(photos);
+            album.CoverPhoto = album.ListofPhotos.FirstOrDefault();
+            //saveToFile(album, "Swati");
+        }
+
+        public static async void saveToFile(Album album, string userName)
+        {
+            var localPath = ApplicationData.Current.LocalFolder.Path;
+            DirectoryInfo d = new DirectoryInfo(localPath + $"\\{userName}");
+            if (!d.Exists)
+            {
+                d.Create();
+                Debug.WriteLine("Created file at " + localPath);
+            }
+            else
+            {
+                Debug.WriteLine("Not created" + localPath);
+            }
+
+            StorageFolder userFolder = await StorageFolder.GetFolderFromPathAsync(localPath + $"\\{userName}");
+            await userFolder.CreateFileAsync($"{album.Name}.json", CreationCollisionOption.ReplaceExisting);
+            StorageFile albumFile = await userFolder.GetFileAsync($"{album.Name}.json");
+            string jsonString = JsonConvert.SerializeObject(album);
+            await FileIO.WriteTextAsync(albumFile, jsonString);
+
+
+        }
+
+        public static async void readUserAlbum(string userName, ObservableCollection<Album> albumList)
+        {
+            albumList.Clear();
+            var localPath = ApplicationData.Current.LocalFolder.Path;
+            StorageFolder userFolder = await StorageFolder.GetFolderFromPathAsync(localPath + $"\\{userName}");
+
+            IReadOnlyList<StorageFile> userAlbumList = await userFolder.GetFilesAsync();
+
+            foreach (StorageFile album in userAlbumList)
+            {
+                //StorageFile albumFile = await userFolder.GetFileAsync($"{album.Name}.json");
+                string albumDetails = await Windows.Storage.FileIO.ReadTextAsync(album);
+                Album userAlbum = JsonConvert.DeserializeObject<Album>(albumDetails);
+                albumList.Add(userAlbum);
+            }
+
+
+
+
+            //
+
+        }
+    }
+}

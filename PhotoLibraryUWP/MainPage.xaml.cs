@@ -37,11 +37,12 @@ namespace PhotoLibraryUWP
         private Album currentAlbum;
         private Photo currentPhoto;
         private List<Photo> selectedPhotos;
+        private string userName = "Swati";
 
         public MainPage()
         {
             this.InitializeComponent();
-            
+
             // This is required as the Command bar opens on the First click and then the buttons can be clicked.
             // Once we add the Icons and Label to the CommandBar this will not be needed.
             MainCommandBar.IsOpen = true;
@@ -50,11 +51,15 @@ namespace PhotoLibraryUWP
             photoList = new ObservableCollection<Photo>();
             
             // Sample albums added to Album list.
-            albumList.Add(new Album("Album1", "Mumbai"));
-            albumList.Add(new Album("Album2", "Delhi"));
+            //albumList.Add(new Album("Album1", "Mumbai"));
+            //albumList.Add(new Album("Album2", "Delhi"));
 
             //set the selected count to zero initially
             SelectedItemCountTextBlock.Text = "0";
+            
+           
+
+            AlbumManager.readUserAlbum(userName, albumList);
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
@@ -128,7 +133,10 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (!EditAlbumPopup.IsOpen)
+            {
+                EditAlbumPopup.IsOpen = true;
+            }
         }
 
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
@@ -152,13 +160,33 @@ namespace PhotoLibraryUWP
 
         private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            currentAlbum.addPhotos(selectedPhotos);
+            AlbumManager.addPhotos(selectedPhotos, currentAlbum);
+            AlbumManager.saveToFile(currentAlbum, userName);
+            AlbumManager.readUserAlbum(userName, albumList);
+            AlbumGridView.Visibility = Visibility.Visible;
+            PhotoGridView.Visibility = Visibility.Collapsed;
+            HeaderTextBlock.Text = "Your Albums";
+
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
            
 
+        }
+
+        private void EditAlbumDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)
+        { 
+            // Popup should close on "Close" button click
+            if (EditAlbumPopup.IsOpen)
+                {
+                    EditAlbumPopup.IsOpen = false;
+                }
         }
     }
 }
