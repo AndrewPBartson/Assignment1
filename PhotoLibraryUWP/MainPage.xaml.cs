@@ -41,7 +41,7 @@ namespace PhotoLibraryUWP
         public MainPage()
         {
             this.InitializeComponent();
-            
+
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
 
@@ -49,7 +49,7 @@ namespace PhotoLibraryUWP
             var album1 = new Album("Album1", "Mumbai");
             albumList.Add(album1);
 
-            var album2 = new Album("Album2", "Washington");          
+            var album2 = new Album("Album2", "Washington");
             albumList.Add(album2);
 
             var album3 = new Album("Album3", "Oregon");
@@ -68,15 +68,12 @@ namespace PhotoLibraryUWP
             album3.ListofPhotos.Add(new Photo("eagle", PhotoCategory.Birds));
             album3.ListofPhotos.Add(new Photo("raven_closeup", PhotoCategory.Birds));
             album3.ListofPhotos.Add(new Photo("spotted_owl", PhotoCategory.Birds));
-
-            
-            //set the selected count to zero initially
-            SelectedItemCountTextBlock.Text = "0";
+            AlbumEnableDisable(false);
+            EditEnableDisable(false);
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
         {
-
             var ClickedItem = (string)e.ClickedItem;
 
             if (ClickedItem == "MyPhotos")
@@ -84,15 +81,18 @@ namespace PhotoLibraryUWP
                 AlbumGridView.Visibility = Visibility.Collapsed;
                 PhotoGridView.Visibility = Visibility.Visible;
                 photoList.Clear();
-                PhotoManager.GetAllPhotos(photoList);
                 ClearAlbumGridViewSelection();
                 HeaderTextBlock.Text = "My Photos";
+                AlbumEnableDisable(false);
+                EditEnableDisable(false);
             }
             else if (ClickedItem == "MyAlbums")
             {
                 AlbumGridView.Visibility = Visibility.Visible;
                 PhotoGridView.Visibility = Visibility.Collapsed;
                 HeaderTextBlock.Text = "My Albums";
+                AlbumEnableDisable(true);
+                EditEnableDisable(false);
             }
         }
 
@@ -108,14 +108,13 @@ namespace PhotoLibraryUWP
         private void AlbumGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
-            SelectedItemCountTextBlock.Text = AlbumGridView.SelectedItems.Count.ToString();
             DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
             EditAlbumButton.IsEnabled = AlbumGridView.SelectedItems.Count == 1;
         }
 
         private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItemCountTextBlock.Text = PhotoGridView.SelectedItems.Count.ToString();
+
         }
 
         private void CreateAlbumButton_Click(object sender, RoutedEventArgs e)
@@ -155,6 +154,9 @@ namespace PhotoLibraryUWP
 
             if (AlbumGridView.SelectedItem != null)
             {
+                EditEnableDisable(true);
+                DeleteAlbumButton.IsEnabled = false;
+                SaveAlbumButton.IsEnabled = false;
                 currentAlbum = (Album)AlbumGridView.SelectedItem;
                 HeaderTextBlock.Text = currentAlbum.Name;
                 photoList.Clear();
@@ -170,6 +172,7 @@ namespace PhotoLibraryUWP
         {
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
+            SaveAlbumButton.IsEnabled = true;
             PhotoManager.GetAllPhotos(photoList);
         }
 
@@ -182,7 +185,7 @@ namespace PhotoLibraryUWP
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentPhoto = (Photo)e.ClickedItem;
-            if(selectedPhotos == null)
+            if (selectedPhotos == null)
             {
                 selectedPhotos = new List<Photo>();
             }
@@ -192,12 +195,12 @@ namespace PhotoLibraryUWP
         private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
             currentAlbum.addPhotos(selectedPhotos);
-           
+
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
 
         }
 
@@ -207,6 +210,40 @@ namespace PhotoLibraryUWP
             {
                 AlbumGridView.SelectedItem = null;
             }
+        }
+
+        private void ChangeCoverPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            var setcoverphoto = (Photo)PhotoGridView.SelectedItem;
+            var selectedAlbum = (Album)AlbumGridView.SelectedItem;
+            if (selectedAlbum == null || setcoverphoto == null)
+            {
+                return;
+            }
+            foreach (var album in albumList)
+            {
+                if (album.Name == selectedAlbum.Name && album.Description == selectedAlbum.Description)
+                {
+                    album.CoverPhoto = setcoverphoto;
+                    break;
+                }
+            }
+        }
+
+
+        private void EditEnableDisable(bool isenabled)
+        {
+            SaveAlbumButton.IsEnabled = isenabled;
+            AddPhotoButton.IsEnabled = isenabled;
+            RemovePhotoButton.IsEnabled = isenabled;
+            ChangeCoverPhotoButton.IsEnabled = isenabled;
+        }
+
+        private void AlbumEnableDisable(bool isenabled)
+        {
+            NewAlbumButton.IsEnabled = isenabled;
+            DeleteAlbumButton.IsEnabled = isenabled;
+            EditAlbumButton.IsEnabled = isenabled;
         }
     }
 }
