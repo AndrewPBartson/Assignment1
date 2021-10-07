@@ -62,20 +62,18 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <CommandBar ClosedDisplayMode="Compact" x:Name="MainCommandBar">
+                    <CommandBar Margin="0,15,0,0" Height="Auto" x:Name="MainCommandBar" Grid.Row="0" IsOpen="True">
                         <CommandBar.Content>
-                            <RelativePanel>
-                            <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Width="400" Margin="0,0,20,0"/>
-                                <TextBlock Name="SelectedItemCountTextBlock" VerticalAlignment="Center" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="15"  Margin="0,0,20,0" RelativePanel.RightOf="HeaderTextBlock" HorizontalAlignment="Right"/>
-                            </RelativePanel>
+                            <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Margin="0,0,20,0"/>
                         </CommandBar.Content>
-                        <AppBarButton Name="BackButton" Content="Back" />
-                        <AppBarButton Name="NewAlbumButton" Content="New Album" Click="NewAlbumButton_Click" />
-                        <AppBarButton Name="EditAlbumButton" Content="Edit Album" Click="EditAlbumButton_Click" />
-                        <AppBarButton Name="SaveAlbumButton" Content="Save Album" Click="SaveAlbumButton_Click" />
-                        <AppBarButton Name="DeleteAlbumButton" Content="Delete Album" Click="DeleteAlbumButton_Click" />
-                        <AppBarButton Name="AddPhotoButton" Content="Add Photo" Click="AddPhotoButton_Click"/>
-                        <AppBarButton Name="RemovePhotoButton" Content="Remove Photo" />
+                        <AppBarButton Icon="Back" Name="BackButton" Label="Back" />
+                        <AppBarButton Icon="NewFolder" Name="NewAlbumButton" Label="New Album" Click="NewAlbumButton_Click" ToolTipService.ToolTip="New Album"/>
+                        <AppBarButton Icon="Edit" Name="EditAlbumButton" Label="Edit Album" Click="EditAlbumButton_Click" ToolTipService.ToolTip="Edit Album"/>
+                        <AppBarButton Icon="Delete" Name="DeleteAlbumButton" Label="Delete Album" Click="DeleteAlbumButton_Click" ToolTipService.ToolTip="Delete Album"/>
+                        <AppBarButton Icon="Save" Name="SaveAlbumButton" Label="Save Album" Click="SaveAlbumButton_Click" ToolTipService.ToolTip="Save Album"/>
+                        <AppBarButton Icon="Add" Name="AddPhotoButton" Label="Add Photo" Click="AddPhotoButton_Click" ToolTipService.ToolTip="Add Photo"/>
+                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove Photo" ToolTipService.ToolTip="Remove Photo"/>
+                        <AppBarButton Icon="Webcam" Name="ChangeCoverPhotoButton" Label="Change Coverphoto" Click="ChangeCoverPhotoButton_Click" ToolTipService.ToolTip="Change Cover Photo"/>
                     </CommandBar>
 
                     <!--This is the Gridview for PhotoList-->
@@ -89,7 +87,7 @@
                               Visibility="Collapsed">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Photo">
-                                <Image Name ="MyPhoto" Height="112" Width="101" Source="{x:Bind PhotoPath}"/>
+                                <Image Name ="MyPhoto" Height="125" Width="101" Source="{x:Bind PhotoPath}"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
@@ -97,22 +95,24 @@
                     <!--This Gridview is for Album-->
                     <GridView Grid.Row="1" 
                               Name="AlbumGridView"
-                              SelectionMode="Multiple"
+                              SelectionMode="Single"
                               IsItemClickEnabled="True"
-                              ItemsSource="{x:Bind albumList}"    
+                              ItemsSource="{x:Bind albumList, Mode=OneWay}"    
                               ItemClick="AlbumGridView_ItemClick"
                               SelectionChanged="AlbumGridView_SelectionChanged"                            
                               Visibility="Collapsed">
 
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Album">
-                                <Grid MinHeight="60" MinWidth="60">
+                                <Grid MinHeight="125" MinWidth="125">
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Margin="0,10,20,0"/>
-                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>
+                                    <Image Source="{Binding Path=CoverPhoto.PhotoPath}" Grid.Row="0" Height="120" Width="101" />
+                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
