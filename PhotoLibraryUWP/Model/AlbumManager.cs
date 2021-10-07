@@ -13,6 +13,7 @@ namespace PhotoLibraryUWP.Model
 {
     class AlbumManager
     {
+        private static string localPath = ApplicationData.Current.LocalFolder.Path;
         public static void addPhotos(List<Photo> photos, Album album)
         {
             album.ListofPhotos.AddRange(photos);
@@ -22,7 +23,7 @@ namespace PhotoLibraryUWP.Model
 
         public static async void saveToFile(Album album, string userName)
         {
-            var localPath = ApplicationData.Current.LocalFolder.Path;
+            
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\{userName}");
             if (!d.Exists)
             {
@@ -46,7 +47,18 @@ namespace PhotoLibraryUWP.Model
         public static async void readUserAlbum(string userName, ObservableCollection<Album> albumList)
         {
             albumList.Clear();
-            var localPath = ApplicationData.Current.LocalFolder.Path;
+
+            DirectoryInfo d = new DirectoryInfo(localPath + $"\\{userName}");
+            if (!d.Exists)
+            {
+                d.Create();
+                Debug.WriteLine("Created file at " + localPath);
+            }
+            else
+            {
+                Debug.WriteLine("Not created" + localPath);
+            }
+
             StorageFolder userFolder = await StorageFolder.GetFolderFromPathAsync(localPath + $"\\{userName}");
 
             IReadOnlyList<StorageFile> userAlbumList = await userFolder.GetFilesAsync();
@@ -58,12 +70,14 @@ namespace PhotoLibraryUWP.Model
                 Album userAlbum = JsonConvert.DeserializeObject<Album>(albumDetails);
                 albumList.Add(userAlbum);
             }
+        }
 
-
-
-
-            //
-
+        public static async void deleteUserAlbum(string albumName, string userName)
+        {
+            var localPath = ApplicationData.Current.LocalFolder.Path;
+            StorageFolder userFolder = await StorageFolder.GetFolderFromPathAsync(localPath + $"\\{userName}");
+            StorageFile albumFileToDelete = await userFolder.GetFileAsync($"{albumName}.json");
+            await albumFileToDelete.DeleteAsync();
         }
     }
 }

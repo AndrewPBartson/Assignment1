@@ -37,7 +37,7 @@ namespace PhotoLibraryUWP
         private Album currentAlbum;
         private Photo currentPhoto;
         private List<Photo> selectedPhotos;
-        private string userName = "Swati";
+        private string userName = "TestUser";
 
         public MainPage()
         {
@@ -50,11 +50,6 @@ namespace PhotoLibraryUWP
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
             
-            //set the selected count to zero initially
-            //SelectedItemCountTextBlock.Text = "0";
-            
-           
-
             AlbumManager.readUserAlbum(userName, albumList);
 
             //AlbumEnableDisable(false);
@@ -139,10 +134,14 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (!EditAlbumPopup.IsOpen)
-            //{
-            //    EditAlbumPopup.IsOpen = true;
-            //}
+            if (!EditAlbumPopup.IsOpen)
+            {
+               EditAlbumPopup.IsOpen = true;
+            }
+            EditEnableDisable(true);
+
+            /* CHANGE COVER PHOTO
+             
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
 
@@ -158,7 +157,9 @@ namespace PhotoLibraryUWP
                 {
                     photoList.Add(photo);
                 }
-            }
+            }  
+            
+             */
 
         }
 
@@ -199,7 +200,7 @@ namespace PhotoLibraryUWP
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AlbumManager.deleteUserAlbum(currentAlbum.Name, userName);
 
         }
 
@@ -247,7 +248,27 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumDetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(AlbumNewNameTxt.Text) && !string.IsNullOrWhiteSpace(AlbumNewDescriptionTxt.Text))
+            {
+                string previousName = currentAlbum.Name;
+                currentAlbum.Name = AlbumNewNameTxt.Text;
+                currentAlbum.Description = AlbumNewDescriptionTxt.Text;
+                               
+                AlbumManager.saveToFile(currentAlbum, userName);
+                AlbumNewNameTxt.Text = "";
+                AlbumNewDescriptionTxt.Text = "";
+                AlbumManager.deleteUserAlbum(previousName, userName);
+                if (AlbumGridView.Visibility != Visibility.Visible)
+                {
+                    AlbumGridView.Visibility = Visibility.Visible;
+                    PhotoGridView.Visibility = Visibility.Collapsed;
+                }
 
+                if (EditAlbumPopup.IsOpen)
+                {
+                    EditAlbumPopup.IsOpen = false;
+                }
+            }
         }
 
         private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)

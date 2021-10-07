@@ -105,12 +105,13 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <!--<Image Name ="MyAlbum" Height="120" Width="101" Source="{x:Bind CoverPhoto.PhotoPath}"/>-->
+                                    <Image Name ="MyAlbum" Source="{x:Bind CoverPhoto.PhotoPath}" Grid.Row="0" Height="100" Width="101"/>
+                                    <TextBlock Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                                    <TextBlock Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
                                     <!--<TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row ="1" Margin="0,10,20,0"/>-->
                                     <!--<TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="1"  Margin="0,10,20,0"/>-->
-                                    <Image Source="{Binding Path=CoverPhoto.PhotoPath}" Grid.Row="0" Height="120" Width="101" />
-                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,5"/>
-                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                                    <!--<Image Source="{Binding Path=CoverPhoto.PhotoPath}" Grid.Row="0" Height="120" Width="101" />-->
+                                    
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
