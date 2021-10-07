@@ -16,21 +16,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <RelativePanel>
-
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
-            <TextBlock Name="Username"
+            <TextBlock Name="Username" FontSize="25" Margin="10,0,0,10"
                        Text="Welcome User!'' ">
             </TextBlock>
 
-        </RelativePanel>
-
         <SplitView Grid.Row="1"
                    Name="MySplitView"
-                   DisplayMode="CompactOverlay"
+                   DisplayMode="Inline"
                    IsPaneOpen="True"
-                   CompactPaneLength="100"
-                   OpenPaneLength="100"
+                   CompactPaneLength="120"
+                   OpenPaneLength="120"
                    >
             <SplitView.Pane >
 
@@ -38,12 +34,12 @@
                           IsItemClickEnabled="True"
                           ItemClick="MainFeatureListview_ItemClick">
 
-                    <ListViewItem Name="MyPhotos" 
-                                  Content="MyPhotos" >
+                    <ListViewItem Name="MyPhotos" FontSize="18"
+                                  Content="My Photos" >
 
                     </ListViewItem>
-                    <ListViewItem Name="MyAlbums" 
-                                  Content="MyAlbums" >
+                    <ListViewItem Name="MyAlbums" FontSize="18" 
+                                  Content="My Albums" >
 
                     </ListViewItem>
 
@@ -57,9 +53,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <CommandBar Margin="0,15,0,0" Height="Auto" x:Name="MainCommandBar" Grid.Row="0" IsOpen="True">
+                    <CommandBar Height="Auto" x:Name="MainCommandBar" Grid.Row="0" VerticalAlignment="Center" IsOpen="False">
                         <CommandBar.Content>
-                            <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Margin="0,0,20,0"/>
+                            <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Margin="20,0,20,0"/>
                         </CommandBar.Content>
                         <AppBarButton Icon="Back" Name="BackButton" Label="Back" />
                         <AppBarButton Icon="NewFolder" Name="NewAlbumButton" Label="New Album" Click="NewAlbumButton_Click" ToolTipService.ToolTip="New Album"/>

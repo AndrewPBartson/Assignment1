@@ -76,7 +76,7 @@ namespace PhotoLibraryUWP
         {
             var ClickedItem = (string)e.ClickedItem;
 
-            if (ClickedItem == "MyPhotos")
+            if (ClickedItem == "My Photos")
             {
                 AlbumGridView.Visibility = Visibility.Collapsed;
                 PhotoGridView.Visibility = Visibility.Visible;
@@ -86,7 +86,7 @@ namespace PhotoLibraryUWP
                 AlbumEnableDisable(false);
                 EditEnableDisable(false);
             }
-            else if (ClickedItem == "MyAlbums")
+            else if (ClickedItem == "My Albums")
             {
                 AlbumGridView.Visibility = Visibility.Visible;
                 PhotoGridView.Visibility = Visibility.Collapsed;
