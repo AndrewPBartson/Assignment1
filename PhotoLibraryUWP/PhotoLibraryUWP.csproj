@@ -124,6 +124,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumManager.cs" />
+    <Compile Include="Model\BaseEntity.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\PhotoManager.cs" />
     <Compile Include="Model\User.cs" />
