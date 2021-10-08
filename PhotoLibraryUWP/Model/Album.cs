@@ -74,12 +74,17 @@ namespace PhotoLibraryUWP.Model
             ListofPhotos = new List<Photo>();
         }
 
-        public void addPhotos(List<Photo> photos)
+        public void addPhotos(List<Photo> photos )
         {
             ListofPhotos.AddRange(photos);
-            CoverPhoto = ListofPhotos.FirstOrDefault();
+            CoverPhoto = ListofPhotos.FirstOrDefault(); 
         }
 
 
-    }
+        
+
+
+        public Album() {
+        }
+         }
 }

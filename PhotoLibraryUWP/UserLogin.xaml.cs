@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using PhotoLibraryUWP.Model;
 using Windows.UI.Popups;
+using Windows.Storage;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -58,6 +59,8 @@ namespace PhotoLibraryUWP
             UserManagement Usermatch = new UserManagement();
             if (Usermatch.IsvalidUser(Username, Password))
             {
+                 
+
                 var rootFrame = Window.Current.Content as Frame;
                 rootFrame.Navigate(typeof(MainPage));
             }

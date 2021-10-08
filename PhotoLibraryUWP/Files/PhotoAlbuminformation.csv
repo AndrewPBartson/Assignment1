@@ -1,0 +1,6 @@
+Username,AlbumName,AlbumDescription,Photoname,Category,iscoverphoto
+Filicity,Test,TestDescription,bear_cubs,1,true
+Filicity,Test,TestDescription,beach_sunset_people,2,false
+Filicity,Test2,TestDescription2,oregon,2,false
+Filicity,Test2,TestDescription2,hongkong_night,6,true
+Andrew,Test,TestDescription2,hongkong_night,6,true

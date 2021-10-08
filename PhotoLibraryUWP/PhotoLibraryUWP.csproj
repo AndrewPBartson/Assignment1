@@ -123,10 +123,15 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\AlbumManager.cs" />
     <Compile Include="Model\BaseEntity.cs" />
+    <Compile Include="Model\ManageDataFile.cs" />
     <Compile Include="Model\Photo.cs" />
+    <Compile Include="Model\PhotoAlbumInformation.cs" />
     <Compile Include="Model\PhotoManager.cs" />
+    <Compile Include="Model\PhotoManagerBase.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Model\UserDataFile.cs" />
     <Compile Include="Model\UserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserLogin.xaml.cs">
@@ -195,6 +200,9 @@
     <Content Include="Assets\Photos\Flowers\flowers_veggies.png" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.jpg" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.png" />
+    <None Include="Files\PhotoAlbuminformation.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

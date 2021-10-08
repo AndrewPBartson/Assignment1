@@ -8,13 +8,13 @@ namespace PhotoLibraryUWP.Model
 {
     class User
     {
-      
+        public static String CurrentUser { get; set; }
         public string Name { get; set; }
         //public List<Album> ListofAlbums { get; set; }
         public string Password { get; set; }
         public User()
         {
-            Name = "Swati";
+            //Name = "Swati";
             //ListofAlbums = new List<Album>(); 
         }
 
