@@ -61,13 +61,13 @@
                         <CommandBar.Content>
                             <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Margin="0,0,20,0"/>
                         </CommandBar.Content>
-                        <AppBarButton Icon="Back" Name="BackButton" Label="Back" />
+                        <!--<AppBarButton Icon="Back" Name="BackButton" Label="Back" />-->
                         <AppBarButton Icon="NewFolder" Name="NewAlbumButton" Label="New Album" Click="NewAlbumButton_Click" ToolTipService.ToolTip="New Album"/>
                         <AppBarButton Icon="Edit" Name="EditAlbumButton" Label="Edit Album" Click="EditAlbumButton_Click" ToolTipService.ToolTip="Edit Album"/>
                         <AppBarButton Icon="Delete" Name="DeleteAlbumButton" Label="Delete Album" Click="DeleteAlbumButton_Click" ToolTipService.ToolTip="Delete Album"/>
                         <AppBarButton Icon="Save" Name="SaveAlbumButton" Label="Save Album" Click="SaveAlbumButton_Click" ToolTipService.ToolTip="Save Album"/>
                         <AppBarButton Icon="Add" Name="AddPhotoButton" Label="Add Photo" Click="AddPhotoButton_Click" ToolTipService.ToolTip="Add Photo"/>
-                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove Photo" ToolTipService.ToolTip="Remove Photo"/>
+                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove Photo" Click="RemovePhotoButton_Click" ToolTipService.ToolTip="Remove Photo"/>
                         <AppBarButton Icon="Webcam" Name="ChangeCoverPhotoButton" Label="Change Coverphoto" Click="ChangeCoverPhotoButton_Click" ToolTipService.ToolTip="Change Cover Photo"/>
                     </CommandBar>
 
@@ -94,6 +94,8 @@
                               IsItemClickEnabled="True"
                               ItemsSource="{x:Bind albumList, Mode=OneWay}"    
                               ItemClick="AlbumGridView_ItemClick"
+                              IsDoubleTapEnabled="True"
+                              DoubleTapped="AlbumGridView_DoubleTapped"
                               SelectionChanged="AlbumGridView_SelectionChanged"                            
                               Visibility="Collapsed">
 

@@ -41,7 +41,7 @@ namespace PhotoLibraryUWP.Model
         //    get { return this.description; }
         //    set
         //    {
-        //        if(value != this.description)
+        //        if (value != this.description)
         //        {
         //            this.description = value;
         //            NotifyPropertyChanged();
@@ -53,13 +53,14 @@ namespace PhotoLibraryUWP.Model
         //{
         //    get { return this.listofphotos; }
         //    set
-        //    {   if(value!= this.listofphotos)
+        //    {
+        //        if (value != this.listofphotos)
         //        {
         //            this.listofphotos = value;
         //            NotifyPropertyChanged();
         //        }
         //    }
-            
+
         //}
 
         //public Photo CoverPhoto
@@ -67,7 +68,7 @@ namespace PhotoLibraryUWP.Model
         //    get { return this.coverphoto; }
         //    set
         //    {
-        //        if(value != this.coverphoto)
+        //        if (value != this.coverphoto)
         //        {
         //            this.coverphoto = value;
         //            NotifyPropertyChanged();

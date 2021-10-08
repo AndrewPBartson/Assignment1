@@ -23,6 +23,7 @@ namespace PhotoLibraryUWP.Model
             photos.Clear();
             filteredPhotos.ForEach(photo => photos.Add(photo));
         }
+
         private static List<Photo> getPhotos()
         {
             var photos = new List<Photo>();
