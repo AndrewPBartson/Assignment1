@@ -46,6 +46,7 @@ namespace PhotoLibraryUWP
             // string Currentuser = UserManagement.CurrentUser;
             CurrentUser = UserManagement.CurrentAppUser;
             APPUsername = CurrentUser.Name;
+            //this.DataContext = new MainViewModel();
             this.InitializeComponent();
            
             albumList = new ObservableCollection<Album>();

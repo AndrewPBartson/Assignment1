@@ -6,11 +6,10 @@
     xmlns:model="using:PhotoLibraryUWP.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
      >
-
+   
     <Grid> 
         <Grid.RowDefinitions> 
             <RowDefinition Height="40"/>
@@ -20,10 +19,11 @@
         <RelativePanel>
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
-
+            
+              
             <TextBlock Name="Username"
-                       Text="{Binding Source={Binding APPUsername ,Mode = TwoWay, UpdateSourceTrigger = PropertyChanged }}">
-                                
+                       DataContext="{Binding Source={Binding APPUsername ,Mode = TwoWay, UpdateSourceTrigger = PropertyChanged }}"
+                         >  
             </TextBlock>
 
         </RelativePanel>
