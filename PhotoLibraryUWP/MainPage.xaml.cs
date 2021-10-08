@@ -43,10 +43,6 @@ namespace PhotoLibraryUWP
         {
             this.InitializeComponent();
 
-            // This is required as the Command bar opens on the First click and then the buttons can be clicked.
-            // Once we add the Icons and Label to the CommandBar this will not be needed.
-            MainCommandBar.IsOpen = true;
-
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
             AlbumManager.readUserAlbum(userName, albumList);
@@ -103,11 +99,6 @@ namespace PhotoLibraryUWP
             NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
             DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
             EditAlbumButton.IsEnabled = AlbumGridView.SelectedItems.Count == 1;
-        }
-
-        private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void NewAlbumButton_Click(object sender, RoutedEventArgs e)
