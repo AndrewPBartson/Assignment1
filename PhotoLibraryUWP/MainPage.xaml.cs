@@ -153,22 +153,20 @@ namespace PhotoLibraryUWP
         {
             if (!string.IsNullOrWhiteSpace(AlbumNewNameTxt.Text) && !string.IsNullOrWhiteSpace(AlbumNewDescriptionTxt.Text))
             {
-                var previousAlbum = currentAlbum;
+                Album previousAlbum = new Album (currentAlbum.Name, currentAlbum.Description);
                 currentAlbum.Name = AlbumNewNameTxt.Text;
                 currentAlbum.Description = AlbumNewDescriptionTxt.Text;
-
                 AlbumManager.saveToFile(currentAlbum, userName);
+                albumList.Remove(currentAlbum);
                 albumList.Add(currentAlbum);
                 AlbumNewNameTxt.Text = "";
                 AlbumNewDescriptionTxt.Text = "";
                 AlbumManager.deleteUserAlbum(previousAlbum, userName);
-                albumList.Remove(previousAlbum);
                 if (AlbumGridView.Visibility != Visibility.Visible)
                 {
                     AlbumGridView.Visibility = Visibility.Visible;
                     PhotoGridView.Visibility = Visibility.Collapsed;
                 }
-
                 if (EditAlbumPopup.IsOpen)
                 {
                     EditAlbumPopup.IsOpen = false;
@@ -196,6 +194,7 @@ namespace PhotoLibraryUWP
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
             EditEnableDisable(true);
+            AlbumEnableDisable(false);
             AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
             HeaderTextBlock.Text = $"Your Photos in {currentAlbum.Name} Album";
         }
@@ -205,6 +204,7 @@ namespace PhotoLibraryUWP
             foreach (var photo in selectedPhotos)
             {
                 currentAlbum.ListofPhotos.Remove(photo);
+                photoList.Remove(photo);
             }
             AlbumManager.saveToFile(currentAlbum, userName);
             AlbumManager.readUserAlbum(userName, albumList);
@@ -217,6 +217,9 @@ namespace PhotoLibraryUWP
             AlbumManager.saveToFile(currentAlbum, userName);
             AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
             AlbumManager.readUserAlbum(userName, albumList);
+            AlbumGridView.Visibility = Visibility.Visible;
+            PhotoGridView.Visibility = Visibility.Collapsed;
+            HeaderTextBlock.Text = "Your Albums";
             selectedPhotos = null;
         }
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
@@ -231,10 +234,8 @@ namespace PhotoLibraryUWP
         {
             AlbumManager.addPhotosToAlbum(selectedPhotos, currentAlbum);
             AlbumManager.saveToFile(currentAlbum, userName);
-            AlbumManager.readUserAlbum(userName, albumList);
-            AlbumGridView.Visibility = Visibility.Visible;
-            PhotoGridView.Visibility = Visibility.Collapsed;
-            HeaderTextBlock.Text = "Your Albums";
+            //AlbumManager.readUserAlbum(userName, albumList);
+            AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
             selectedPhotos = null;
         }
 

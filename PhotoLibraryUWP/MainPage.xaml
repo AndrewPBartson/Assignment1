@@ -150,7 +150,7 @@
                 <StackPanel Orientation="Vertical" >
                     <TextBox Name="AlbumNewNameTxt" Header="Album New Name" Width="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
                     <TextBox Name="AlbumNewDescriptionTxt" Header="New Description"  TextWrapping="Wrap" MaxHeight="150" MinHeight="100" AcceptsReturn="True"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto" Width="400 " HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                             ScrollViewer.VerticalScrollBarVisibility="Auto" Width="400 " HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
                     <RelativePanel>
                         <Button Name="EditAlbumDetailsButton" Content="Edit Album Details" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditAlbumDetailsButton_Click" FontSize="25" Margin="30,30,0,0" Padding="10" />
                         <Button Name="CloseEditPopupButton" Content="Close" HorizontalAlignment="Center" RelativePanel.RightOf="EditAlbumDetailsButton" VerticalAlignment="Center" Click="CloseEditPopupButton_Click" FontSize="25" Margin="50,30,0,0" Padding="10"/>
