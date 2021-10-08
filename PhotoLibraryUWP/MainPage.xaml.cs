@@ -61,17 +61,18 @@ namespace PhotoLibraryUWP
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
         {
             var ClickedItem = (string)e.ClickedItem;
-            if (ClickedItem == "MyPhotos")
+            if (ClickedItem == "My Photos")
             {
                 AlbumGridView.Visibility = Visibility.Collapsed;
                 PhotoGridView.Visibility = Visibility.Visible;
                 photoList.Clear();
                 ClearAlbumGridViewSelection();
                 HeaderTextBlock.Text = "My Photos";
+                PhotoManager.GetAllPhotos(photoList);
                 AlbumEnableDisable(false);
                 EditEnableDisable(false);
             }
-            else if (ClickedItem == "MyAlbums")
+            else if (ClickedItem == "My Albums")
             {
                 AlbumGridView.Visibility = Visibility.Visible;
                 PhotoGridView.Visibility = Visibility.Collapsed;
