@@ -37,39 +37,24 @@ namespace PhotoLibraryUWP
         private Album currentAlbum;
         private Photo currentPhoto;
         private List<Photo> selectedPhotos;
+        private string userName = "TestUser";
 
         public MainPage()
         {
             this.InitializeComponent();
 
+            // This is required as the Command bar opens on the First click and then the buttons can be clicked.
+            // Once we add the Icons and Label to the CommandBar this will not be needed.
+            MainCommandBar.IsOpen = true;
+
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
+            
+            AlbumManager.readUserAlbum(userName, albumList);
 
-            // Sample albums added to Album list.
-            var album1 = new Album("Album1", "Mumbai");
-            albumList.Add(album1);
+            //AlbumEnableDisable(false);
+            //EditEnableDisable(false);
 
-            var album2 = new Album("Album2", "Washington");
-            albumList.Add(album2);
-
-            var album3 = new Album("Album3", "Oregon");
-            albumList.Add(album3);
-
-            album1.ListofPhotos.Add(new Photo("bear_cubs", PhotoCategory.Animals));
-            album1.ListofPhotos.Add(new Photo("chinook", PhotoCategory.Animals));
-            album1.ListofPhotos.Add(new Photo("elk", PhotoCategory.Animals));
-            album1.ListofPhotos.Add(new Photo("foxes", PhotoCategory.Animals));
-
-            album2.ListofPhotos.Add(new Photo("beach_sunset_people", PhotoCategory.Beaches));
-            album2.ListofPhotos.Add(new Photo("hotel_beach", PhotoCategory.Beaches));
-            album2.ListofPhotos.Add(new Photo("oregon", PhotoCategory.Beaches));
-            album2.ListofPhotos.Add(new Photo("rocky_shore", PhotoCategory.Beaches));
-
-            album3.ListofPhotos.Add(new Photo("eagle", PhotoCategory.Birds));
-            album3.ListofPhotos.Add(new Photo("raven_closeup", PhotoCategory.Birds));
-            album3.ListofPhotos.Add(new Photo("spotted_owl", PhotoCategory.Birds));
-            AlbumEnableDisable(false);
-            EditEnableDisable(false);
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
@@ -149,6 +134,14 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!EditAlbumPopup.IsOpen)
+            {
+               EditAlbumPopup.IsOpen = true;
+            }
+            EditEnableDisable(true);
+
+            /* CHANGE COVER PHOTO
+             
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
 
@@ -164,7 +157,9 @@ namespace PhotoLibraryUWP
                 {
                     photoList.Add(photo);
                 }
-            }
+            }  
+            
+             */
 
         }
 
@@ -194,13 +189,18 @@ namespace PhotoLibraryUWP
 
         private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            currentAlbum.addPhotos(selectedPhotos);
+            AlbumManager.addPhotos(selectedPhotos, currentAlbum);
+            AlbumManager.saveToFile(currentAlbum, userName);
+            AlbumManager.readUserAlbum(userName, albumList);
+            AlbumGridView.Visibility = Visibility.Visible;
+            PhotoGridView.Visibility = Visibility.Collapsed;
+            HeaderTextBlock.Text = "Your Albums";
 
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AlbumManager.deleteUserAlbum(currentAlbum.Name, userName);
 
         }
 
@@ -244,6 +244,40 @@ namespace PhotoLibraryUWP
             NewAlbumButton.IsEnabled = isenabled;
             DeleteAlbumButton.IsEnabled = isenabled;
             EditAlbumButton.IsEnabled = isenabled;
+        }
+
+        private void EditAlbumDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(AlbumNewNameTxt.Text) && !string.IsNullOrWhiteSpace(AlbumNewDescriptionTxt.Text))
+            {
+                string previousName = currentAlbum.Name;
+                currentAlbum.Name = AlbumNewNameTxt.Text;
+                currentAlbum.Description = AlbumNewDescriptionTxt.Text;
+                               
+                AlbumManager.saveToFile(currentAlbum, userName);
+                AlbumNewNameTxt.Text = "";
+                AlbumNewDescriptionTxt.Text = "";
+                AlbumManager.deleteUserAlbum(previousName, userName);
+                if (AlbumGridView.Visibility != Visibility.Visible)
+                {
+                    AlbumGridView.Visibility = Visibility.Visible;
+                    PhotoGridView.Visibility = Visibility.Collapsed;
+                }
+
+                if (EditAlbumPopup.IsOpen)
+                {
+                    EditAlbumPopup.IsOpen = false;
+                }
+            }
+        }
+
+        private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)
+        { 
+            // Popup should close on "Close" button click
+            if (EditAlbumPopup.IsOpen)
+                {
+                    EditAlbumPopup.IsOpen = false;
+                }
         }
     }
 }
