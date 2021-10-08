@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using PhotoLibraryUWP.Model;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -110,6 +111,7 @@ namespace PhotoLibraryUWP
             NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
             DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
             EditAlbumButton.IsEnabled = AlbumGridView.SelectedItems.Count == 1;
+
         }
 
         private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -176,10 +178,18 @@ namespace PhotoLibraryUWP
             PhotoManager.GetAllPhotos(photoList);
         }
 
-        private void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentAlbum = (Album)e.ClickedItem;
             selectedPhotos = new List<Photo>();
+            
+                var gridView = sender as GridView;
+                if (e.ClickedItem == gridView.SelectedItem)
+                {
+                    await Task.Delay(100);
+                    gridView.SelectedItem = null;
+                }
+            
         }
 
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
