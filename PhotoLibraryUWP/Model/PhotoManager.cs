@@ -56,11 +56,27 @@ namespace PhotoLibraryUWP.Model
             photos.Add(new Photo("butterfly_white_black_orange", PhotoCategory.Butterflies));
             photos.Add(new Photo("butterfly_yellow_red_white", PhotoCategory.Butterflies));
 
+            photos.Add(new Photo("city_night", PhotoCategory.Cities));
+            photos.Add(new Photo("city_texas", PhotoCategory.Cities));
             photos.Add(new Photo("hongkong_night", PhotoCategory.Cities));
+            photos.Add(new Photo("night_city", PhotoCategory.Cities));
+            photos.Add(new Photo("portland_ore", PhotoCategory.Cities));
 
+            photos.Add(new Photo("bear_grass", PhotoCategory.Flowers));
+            photos.Add(new Photo("calif_poppies", PhotoCategory.Flowers));
             photos.Add(new Photo("flowers_veggies", PhotoCategory.Flowers));
+            photos.Add(new Photo("pink", PhotoCategory.Flowers));
+            photos.Add(new Photo("roses", PhotoCategory.Flowers));
 
+            photos.Add(new Photo("gaza_kids", PhotoCategory.People));
+            photos.Add(new Photo("girl_brown_eyes", PhotoCategory.People));
+            photos.Add(new Photo("queen_of_pacific", PhotoCategory.People));
+
+            photos.Add(new Photo("joshua_trees", PhotoCategory.Trees));
             photos.Add(new Photo("redwood_sunrays", PhotoCategory.Trees));
+            photos.Add(new Photo("ski_slope", PhotoCategory.Trees));
+            photos.Add(new Photo("sunlit_trees", PhotoCategory.Trees));
+            photos.Add(new Photo("tall_trees", PhotoCategory.Trees));
 
             return photos;
 

@@ -20,11 +20,6 @@ namespace PhotoLibraryUWP.Model
             album.CoverPhoto = album.ListofPhotos.FirstOrDefault();
         }
 
-        //public static void deletePhotosFromAlbum(Album album, List<Photo> deleteThesePhotos)
-        //{
-        //    album.ListOfPhotos.Remove(deleteThesePhotos);
-        //}
-
         public static async void saveToFile(Album album, string userName)
         {
             StorageFolder userFolder = await StorageFolder.GetFolderFromPathAsync(localPath + $"\\{userName}");

@@ -52,6 +52,10 @@ namespace PhotoLibraryUWP
             AlbumManager.readUserAlbum(userName, albumList);
             AlbumEnableDisable(false);
             EditEnableDisable(false);
+            AlbumGridView.Visibility = Visibility.Visible;
+            PhotoGridView.Visibility = Visibility.Collapsed;
+            HeaderTextBlock.Text = "My Albums";
+            NewAlbumButton.IsEnabled = true;
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
@@ -143,6 +147,8 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
+            AlbumNewNameTxt.Text = currentAlbum.Name;
+            AlbumNewDescriptionTxt.Text = currentAlbum.Description;
             if (!EditAlbumPopup.IsOpen)
             {
                EditAlbumPopup.IsOpen = true;
@@ -150,7 +156,7 @@ namespace PhotoLibraryUWP
         }
 
         private void EditAlbumDetailsButton_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             if (!string.IsNullOrWhiteSpace(AlbumNewNameTxt.Text) && !string.IsNullOrWhiteSpace(AlbumNewDescriptionTxt.Text))
             {
                 Album previousAlbum = new Album (currentAlbum.Name, currentAlbum.Description);
@@ -187,6 +193,7 @@ namespace PhotoLibraryUWP
         {
             AlbumManager.deleteUserAlbum(currentAlbum, userName);
             albumList.Remove(currentAlbum);
+            DisplayConfirmationDialog("Delete dialog", $"Your album {currentAlbum.Name} has been deleted successfully!!");
         }
 
         private void AlbumGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -209,6 +216,7 @@ namespace PhotoLibraryUWP
             AlbumManager.saveToFile(currentAlbum, userName);
             AlbumManager.readUserAlbum(userName, albumList);
             selectedPhotos = null;
+            DisplayConfirmationDialog("Delete dialog", "Your photo(s) have been deleted successfully!!");
         }
 
         private void ChangeCoverPhotoButton_Click(object sender, RoutedEventArgs e)
@@ -221,11 +229,14 @@ namespace PhotoLibraryUWP
             PhotoGridView.Visibility = Visibility.Collapsed;
             HeaderTextBlock.Text = "Your Albums";
             selectedPhotos = null;
+            DisplayConfirmationDialog("Change cover photo dialog", "Your cover photo has been updated successfully!!");
         }
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
+            AlbumEnableDisable(false);
+            EditEnableDisable(false);
             SaveAlbumButton.IsEnabled = true;
             PhotoManager.GetAllPhotos(photoList);
         }
@@ -234,9 +245,10 @@ namespace PhotoLibraryUWP
         {
             AlbumManager.addPhotosToAlbum(selectedPhotos, currentAlbum);
             AlbumManager.saveToFile(currentAlbum, userName);
-            //AlbumManager.readUserAlbum(userName, albumList);
+            AlbumManager.readUserAlbum(userName, albumList);
             AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
             selectedPhotos = null;
+            DisplayConfirmationDialog("Add Photo dialog", $"Your photo(s) have been added successfully to album:{currentAlbum.Name}!!");
         }
 
         private void ClearAlbumGridViewSelection()
@@ -259,6 +271,17 @@ namespace PhotoLibraryUWP
             AddPhotoButton.IsEnabled = isenabled;
             RemovePhotoButton.IsEnabled = isenabled;
             ChangeCoverPhotoButton.IsEnabled = isenabled;
+        }
+        private async void DisplayConfirmationDialog(string title, string content)
+        {
+            ContentDialog confirmationDialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "Ok"
+            };
+
+            ContentDialogResult result = await confirmationDialog.ShowAsync();
         }
     }
 }

@@ -15,8 +15,9 @@ namespace PhotoLibraryUWP.Model
         Butterflies,
         Cities,
         Flowers,
-        Trees,
-        None
+        None,
+        People,
+        Trees
     }
 
     public class Photo
@@ -31,6 +32,5 @@ namespace PhotoLibraryUWP.Model
             Category = category;
             PhotoPath = $"/Assets/Photos/{category}/{name}.png"; 
         }
-
     }
 }
