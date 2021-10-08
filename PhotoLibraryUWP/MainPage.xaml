@@ -20,12 +20,11 @@
         <RelativePanel>
 
             <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
-          
-            <!--<TextBlock Name="Username"
-                       Text="{Binding Source={x:Static model:UserManagement.CurrentUser}}">-->
-            
-                                 
-            <!--</TextBlock>-->
+
+            <TextBlock Name="Username"
+                       Text="{Binding Source={Binding APPUsername ,Mode = TwoWay, UpdateSourceTrigger = PropertyChanged }}">
+                                
+            </TextBlock>
 
         </RelativePanel>
 
@@ -72,7 +71,7 @@
                         <AppBarButton Icon="Delete" Name="DeleteAlbumButton" Label="Delete Album" Click="DeleteAlbumButton_Click" ToolTipService.ToolTip="Delete Album"/>
                         <AppBarButton Icon="Save" Name="SaveAlbumButton" Label="Save Album" Click="SaveAlbumButton_Click" ToolTipService.ToolTip="Save Album"/>
                         <AppBarButton Icon="Add" Name="AddPhotoButton" Label="Add Photo" Click="AddPhotoButton_Click" ToolTipService.ToolTip="Add Photo"/>
-                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove Photo" ToolTipService.ToolTip="Remove Photo"/>
+                        <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove" Click="RemoveButton_Click" ToolTipService.ToolTip="Remove Photo"/>
                         <AppBarButton Icon="Webcam" Name="ChangeCoverPhotoButton" Label="Change Coverphoto" Click="ChangeCoverPhotoButton_Click" ToolTipService.ToolTip="Change Cover Photo"/>
                     </CommandBar>
 

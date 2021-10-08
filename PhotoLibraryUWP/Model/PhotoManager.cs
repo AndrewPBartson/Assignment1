@@ -18,7 +18,7 @@ namespace PhotoLibraryUWP.Model
 
         public static void GetMyPhotos(ObservableCollection<Photo> photos)
         {
-            PhotoAlbumInformation MyPhoto = new PhotoAlbumInformation();
+            ManageDataFile MyPhoto = new ManageDataFile();
             var allPhotos = MyPhoto.GetMyPhotos();
             photos.Clear();
             allPhotos.ForEach(photo => photos.Add(photo));

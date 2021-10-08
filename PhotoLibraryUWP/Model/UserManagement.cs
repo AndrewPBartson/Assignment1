@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 using Windows.Storage.Pickers;
 
 namespace PhotoLibraryUWP.Model
-{
+{   
     class UserManagement
     {
-        
+       public static User CurrentAppUser;
 
         public List<User> UserLoginInformation()
         {
@@ -42,7 +42,8 @@ namespace PhotoLibraryUWP.Model
             UserLoginInformation();
             if (UserInfoList.Any(CurrentUser => CurrentUser.Name == Username && CurrentUser.Password == password))
             {
-                //CurrentUser = Username;
+                var CurrentAppUser1 = UserInfoList.FirstOrDefault(CurrentUser => CurrentUser.Name == Username && CurrentUser.Password == password);
+                CurrentAppUser = CurrentAppUser1;
                 return (true);
             }
             else
