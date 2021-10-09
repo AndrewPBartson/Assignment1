@@ -22,6 +22,8 @@ namespace PhotoLibraryUWP.Model
 
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
 
+            if (!d.Exists) d.Create();
+
             Filepath = $"{d}\\PhotoAlbumInformation.csv";
 
             FileInfo F = new FileInfo(Filepath);
@@ -175,7 +177,7 @@ namespace PhotoLibraryUWP.Model
              var filtered = CrrentAlbumInfo
                    .Where(x => ! SelectedPhoto.Any(y => (y.Name == x.PhotoName ))).ToList();
 
-
+            if (filtered.Count() <= 1) return true; 
             var hascoverphoto = filtered.First(x=>x.IsCoverphoto=true);
 
             if ( hascoverphoto != null )  filtered.First(x => x.IsCoverphoto = true);
@@ -195,7 +197,12 @@ namespace PhotoLibraryUWP.Model
         public bool ChangeCoverPhoto(User UserInfo, Album NewAlbum, Photo SelectedPhoto)
         {
 
-            
+            var localPath = ApplicationData.Current.LocalFolder.Path;
+
+            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
+
+            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
+
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
