@@ -60,6 +60,8 @@ namespace PhotoLibraryUWP
             
             if (ClickedItem == "All Photos")
             {
+                PhotoGridView.IsItemClickEnabled = false;
+                PhotoGridView.IsMultiSelectCheckBoxEnabled = false;
                 HeaderTextBlock.Text = "All Photos";
                 ShowPhotoinGrid();
             
