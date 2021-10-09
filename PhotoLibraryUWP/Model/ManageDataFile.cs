@@ -13,16 +13,7 @@ namespace PhotoLibraryUWP.Model
     class ManageDataFile
     {
 
-        //public List<PhotoAlbumInformation> Loaddata()
-        //{
-        //    UserDataFile Datafile = new UserDataFile();
-        //    List<PhotoAlbumInformation> MyALbumsInfo = Datafile.FetchingPhotoAlbumInformation(UserManagement.CurrentAppUser);
-
-        //    return (MyALbumsInfo);
-
-
-        //}
-
+       
         public List<Photo> GetMyPhotos()
         {
             //Retuen all Photos on All Albums which User Has already Saved
@@ -41,18 +32,11 @@ namespace PhotoLibraryUWP.Model
           
             UserDataFile ReadingFile = new UserDataFile();
             List<PhotoAlbumInformation> MyALbumsInfo = ReadingFile.FetchingPhotoAlbumInformation(UserManagement.CurrentAppUser);
-          
             List<Album> Albums = new List<Album>();
-            
-            
+              
             List<PhotoAlbumInformation> MyALbumsInfo1;
             MyALbumsInfo1 = MyALbumsInfo;
-           
-            // MyALbumsInfo.Where(m => m.UserInfo.Name == UserManagement.CurrentAppUser.Name &&  m.IsCoverphoto ).GroupBy(n => new { n.Albumname, n.AlbumDescription });
-           var ALbumCount=  MyALbumsInfo.Where(m => m.UserInfo.Name == UserManagement.CurrentAppUser.Name && m.IsCoverphoto).ToList();
-          
-            //PhotoAlbumInformation PhotoCount  ;
-
+            var ALbumCount=  MyALbumsInfo.Where(m => m.UserInfo.Name == UserManagement.CurrentAppUser.Name && m.IsCoverphoto).ToList();
             foreach (var listItem in ALbumCount)
             {
                 Album album = new Album();
@@ -78,27 +62,9 @@ namespace PhotoLibraryUWP.Model
 
                 Albums.Add(album);
             }
-
-
-
-
             return Albums;
         }
 
-        public void GetMyAlbums(ObservableCollection<Photo> photoList, User CurrentAppUser)
-        {
-            UserDataFile ReadingFile = new UserDataFile();
-            List<PhotoAlbumInformation> MyALbumsInfo = ReadingFile.FetchingPhotoAlbumInformation(UserManagement.CurrentAppUser);
-            List<Album> albums = new List<Album>();
-
-            //  albums.AddRange(MyALbumsInfo.Select(x => new Album() { Name = x.NewAlbum, Description = x. }));
-             
-
-            //var Selected CoverPhoto = MyALbumsInfo.FirstOrDefault(x => IsCoverphoto);
-            //Coverphoto.Name = SelectedCoverPhoto.PhotoName;
-            //Coverphoto.PhotoPath = SelectedCoverPhoto.PhotoName;
-            //Coverphoto.Category = SelectedCoverPhoto.Category;
-        }
 
         public bool DeletePhotoAlbum(User CurrentUser, Album CurrentAlbum)
         {
@@ -112,12 +78,12 @@ namespace PhotoLibraryUWP.Model
 
         }
 
-        public bool RemovePhotoFromAlbum(User CurrentUser, Album CurrentAlbum , Photo Currentphoto )
+        public bool RemovePhotoFromAlbum(User CurrentUser, Album CurrentAlbum , List<Photo> Currentphotos )
         {
 
             UserDataFile Delete = new UserDataFile();
 
-            Delete.DeletePhotoFormAlbum(CurrentUser, CurrentAlbum , Currentphoto);
+            Delete.DeletePhotoFormAlbum(CurrentUser, CurrentAlbum , Currentphotos);
 
 
             return true;

@@ -86,7 +86,7 @@ namespace PhotoLibraryUWP.Model
 
             {
                 AddingPhotoToCurrentAlbum(UserInfo, NewAlbum, Photos);
-                return;
+                return ;
             }
 
             Boolean iscoverphoto;
@@ -101,8 +101,9 @@ namespace PhotoLibraryUWP.Model
 
                 File.AppendAllText(Filepath, NewuserAlbuminfo + Environment.NewLine);
 
-             
+               
             }
+        
 
         }
 
@@ -151,7 +152,7 @@ namespace PhotoLibraryUWP.Model
             foreach (var validdata in Validdata)
             {
                 NewuserAlbuminfo.Add(string.Join(',', validdata.UserInfo.Name + "," + validdata.Albumname + ',' +
-                                      NewAlbum.Description + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
+                                      validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
 
             
                 File.WriteAllLines(Filepath, NewuserAlbuminfo);
@@ -160,7 +161,7 @@ namespace PhotoLibraryUWP.Model
            return true;
         }
 
-        public bool DeletePhotoFormAlbum(User UserInfo, Album NewAlbum ,Photo SelectedPhoto)
+        public bool DeletePhotoFormAlbum(User UserInfo, Album NewAlbum ,List<Photo> SelectedPhoto)
         {
 
             var localPath = ApplicationData.Current.LocalFolder.Path;
@@ -172,10 +173,14 @@ namespace PhotoLibraryUWP.Model
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
+            
+            var CrrentAlbumInfo = PhotoAlbumList.Where(m => (m.UserInfo.Name == UserInfo.Name &&
+                                            m.Albumname == NewAlbum.Name &&
+                                             m.AlbumDescription == NewAlbum.Description)).ToList();
 
             var Validdata = PhotoAlbumList.Where(m => !(m.UserInfo.Name == UserInfo.Name &&
                                               m.Albumname == NewAlbum.Name &&
-                                               m.AlbumDescription == NewAlbum.Description && m.PhotoName== SelectedPhoto.Name)).ToList();
+                                               m.AlbumDescription == NewAlbum.Description )).ToList();
             File.Delete(Filepath);
 
             List<string> NewuserAlbuminfo = new List<string>();
@@ -183,13 +188,29 @@ namespace PhotoLibraryUWP.Model
             foreach (var validdata in Validdata)
             {
                 NewuserAlbuminfo.Add(string.Join(',', validdata.UserInfo.Name + "," + validdata.Albumname + ',' +
-                                      NewAlbum.Description + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
+                                      validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
 
 
                 File.WriteAllLines(Filepath, NewuserAlbuminfo);
             }
 
-            return true;
+             var filtered = CrrentAlbumInfo
+                   .Where(x => ! SelectedPhoto.Any(y => (y.Name == x.PhotoName ))).ToList();
+
+
+            var hascoverphoto = filtered.First(x=>x.IsCoverphoto=true);
+
+            if ( hascoverphoto != null )  filtered.First(x => x.IsCoverphoto = true);
+
+            foreach (var photo in filtered)
+            {
+              
+                NewuserAlbuminfo.Add(string.Join(',', photo.UserInfo.Name + "," + photo.Albumname + ',' +
+                                   photo.AlbumDescription + ',' + photo.PhotoName + ',' + ((int)photo.Category) + ',' + photo.IsCoverphoto));
+                File.WriteAllLines(Filepath, NewuserAlbuminfo);
+
+            }
+          return true;
         }
 
 
@@ -206,43 +227,47 @@ namespace PhotoLibraryUWP.Model
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
 
-            var OldCoverPhoto = PhotoAlbumList.Where(m => m.UserInfo.Name == UserInfo.Name &&
-                                  m.Albumname == NewAlbum.Name &&
-                                   m.AlbumDescription == NewAlbum.Description  && m.IsCoverphoto).ToList();
+          
+
+            var OldAlbum = PhotoAlbumList.Where(m => m.UserInfo.Name == UserInfo.Name &&
+                                m.Albumname == NewAlbum.Name &&
+                                 m.AlbumDescription == NewAlbum.Description ).ToList();
 
             var Validdata = PhotoAlbumList.Where(m => !(m.UserInfo.Name == UserInfo.Name &&
                                               m.Albumname == NewAlbum.Name &&
-                                               m.AlbumDescription == NewAlbum.Description  && m.IsCoverphoto )).ToList();
-            
+                                               m.AlbumDescription == NewAlbum.Description )).ToList();
+
+
             File.Delete(Filepath);
 
             List<string> NewuserAlbuminfo = new List<string>();
 
             foreach (var validdata in Validdata)
             {
+
                 NewuserAlbuminfo.Add(string.Join(',', validdata.UserInfo.Name + "," + validdata.Albumname + ',' +
-                                      NewAlbum.Description + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
+                                      validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
 
 
                 File.WriteAllLines(Filepath, NewuserAlbuminfo);
             }
 
-            foreach (var oldphoto in OldCoverPhoto)
+            Boolean iscoverphoto ;
+            foreach (var oldphoto in OldAlbum)
             {
+                if (oldphoto.PhotoName == SelectedPhoto.Name && oldphoto.Category == SelectedPhoto.Category)  iscoverphoto = true;  else  iscoverphoto = false;   
+                
+
                 string Oldcoverohoto = string.Join(',', oldphoto.UserInfo.Name + "," + oldphoto.Albumname + ',' +
-                oldphoto.AlbumDescription + ',' + oldphoto.PhotoName + ',' + ((int)oldphoto.Category) + ',' + false);
+                oldphoto.AlbumDescription + ',' + oldphoto.PhotoName + ',' + ((int)oldphoto.Category) + ',' + iscoverphoto);
 
                 File.AppendAllText(Filepath, Oldcoverohoto + Environment.NewLine);
             }
-            string NewCoverPhoto = string.Join(',', UserInfo.Name + "," + NewAlbum.Name + ',' +
-                NewAlbum.Description + ',' + SelectedPhoto.Name + ',' + ((int)SelectedPhoto.Category) + ',' + true);
-
-            File.AppendAllText(Filepath, NewCoverPhoto + Environment.NewLine);
+            
 
             return true;
         }
 
-        // public void SaveInPhotoAlbum(PhotoAlbumInformation )
-        //  public
+       
     }
 }

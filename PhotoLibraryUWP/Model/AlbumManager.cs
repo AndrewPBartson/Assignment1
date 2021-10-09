@@ -17,5 +17,11 @@ namespace PhotoLibraryUWP.Model
             allPhotos.ForEach(album => Albums.Add(album));
         }
 
+        public static void displayUserPhotosByAlbum(Album album, ObservableCollection<Photo> photoList)
+        {
+            var allPhotos = album.ListofPhotos;
+            photoList.Clear();
+            allPhotos.ForEach(photo => photoList.Add(photo));
+        }
     }
 }

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using PhotoLibraryUWP.Model;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -27,14 +28,8 @@ namespace PhotoLibraryUWP
     {
 
         
-        /// <summary>
-        /// Sample observable collection of albums
-        /// </summary>
+        
         private ObservableCollection<Album> albumList;
-
-        /// <summary>
-        /// Sample observable collection of Photos
-        /// </summary>
         private ObservableCollection<Photo> photoList;
 
         private Album currentAlbum;
@@ -44,34 +39,34 @@ namespace PhotoLibraryUWP
         private String APPUsername;
         public MainPage()
         {
-            // string Currentuser = UserManagement.CurrentUser;
+            
             CurrentUser = UserManagement.CurrentAppUser;
             APPUsername = CurrentUser.Name;
-            //this.DataContext = new MainViewModel();
+
+            
             this.InitializeComponent();
            
             albumList = new ObservableCollection<Album>();
             photoList = new ObservableCollection<Photo>();
-
-           
+            UsernameTextbox.Text = $"Welcome { CurrentUser.Name} ";
             AlbumEnableDisable(false);
             EditEnableDisable(false);
-
+            HeaderTextBlock.Text = "";
         }
 
         private void MainFeatureListview_ItemClick(object sender, ItemClickEventArgs e)
         {   
             var ClickedItem = (string)e.ClickedItem;
-            if (ClickedItem == "AllPhotos")
+            
+            if (ClickedItem == "All Photos")
             {
+                HeaderTextBlock.Text = "All Photos";
                 ShowPhotoinGrid();
-             //   PhotoGridView.IsItemClickEnabled = false;
-             //  PhotoGridView.IsMultiSelectCheckBoxEnabled = false;
-             // PhotoGridView.IsEnabled = false;
+            
 
 
             }
-            else if (ClickedItem == "MyPhotos")
+            else if (ClickedItem == "My Photos")
             {
                 PhotoManager.GetMyPhotos(photoList);
                 AlbumGridView.Visibility = Visibility.Collapsed;
@@ -88,7 +83,10 @@ namespace PhotoLibraryUWP
             }
             else if (ClickedItem == "My Albums")
             {
+                PhotoGridView.IsItemClickEnabled = true;
+                PhotoGridView.IsMultiSelectCheckBoxEnabled = true;
                 showAlbuminGrid();
+                
             }
         }
 
@@ -100,6 +98,7 @@ namespace PhotoLibraryUWP
             HeaderTextBlock.Text = "My Albums";
             AlbumEnableDisable(true);
             EditEnableDisable(false);
+          
         }
         private void ShowPhotoinGrid()
         {
@@ -122,7 +121,7 @@ namespace PhotoLibraryUWP
             NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
             DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
             EditAlbumButton.IsEnabled = AlbumGridView.SelectedItems.Count == 1;
-
+            
         }
 
         private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -162,34 +161,68 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            AlbumGridView.Visibility = Visibility.Collapsed;
-            PhotoGridView.Visibility = Visibility.Visible;
+         
 
-            if (AlbumGridView.SelectedItem != null)
+            if (!EditAlbumPopup.IsOpen)
             {
-                PhotoGridView.IsItemClickEnabled = true;
-                EditEnableDisable(true);
-                DeleteAlbumButton.IsEnabled = false;
-                SaveAlbumButton.IsEnabled = false;
+                EditAlbumPopup.IsOpen = true;
+                AlbumNewNameTxt.Text = currentAlbum.Name;
+                AlbumNewDescriptionTxt.Text = currentAlbum.Description;
 
-                currentAlbum = (Album)AlbumGridView.SelectedItem;
-                HeaderTextBlock.Text = currentAlbum.Name;
-                photoList.Clear();
-                foreach (var photo in currentAlbum.ListofPhotos)
-                {
-                    photoList.Add(photo);
-                }
             }
+           
+         
+           
 
         }
+        private void EditAlbumDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
 
+            if (AlbumNewNameTxt.Text == "" || AlbumNewDescriptionTxt.Text == "")
+            {
+                
+                DisplayMessage("Album Name and Description need values! ", "EditingAlbumError");
+                return;
+            }
+
+
+            UserDataFile newAlbum = new UserDataFile();
+
+            newAlbum.DeleteAlbum(CurrentUser, currentAlbum);
+           
+            
+            currentAlbum.Name = AlbumNewNameTxt.Text;
+            currentAlbum.Description = AlbumNewDescriptionTxt.Text;
+
+            newAlbum.SavingPhotoAlbum(CurrentUser, currentAlbum, currentAlbum.ListofPhotos, currentAlbum.CoverPhoto);
+
+            AlbumNewNameTxt.Text = "";
+            AlbumNewDescriptionTxt.Text = "";
+            if (EditAlbumPopup.IsOpen)
+            {
+                EditAlbumPopup.IsOpen = false;
+            }
+            showAlbuminGrid();
+            DisplayMessage("You Album name an descriotion successfully changed", "Edit ALbum ");
+        }
+
+        private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Popup should close on "Close" button click
+            if (EditAlbumPopup.IsOpen)
+            {
+                EditAlbumPopup.IsOpen = false;
+            }
+        }
         private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
         {
+            selectedPhotos = null;
             PhotoGridView.IsItemClickEnabled = true;
             PhotoGridView.IsMultiSelectCheckBoxEnabled = true;
             AlbumGridView.Visibility = Visibility.Collapsed;
             PhotoGridView.Visibility = Visibility.Visible;
             SaveAlbumButton.IsEnabled = true;
+            AddPhotoButton.IsEnabled = false;
             PhotoManager.GetAllPhotos(photoList);
 
         }
@@ -204,11 +237,22 @@ namespace PhotoLibraryUWP
                 {
                     await Task.Delay(100);
                     gridView.SelectedItem = null;
-                }
-            
+                   }
         }
 
-        
+        private void AlbumGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            
+            AlbumGridView.Visibility = Visibility.Collapsed;
+            PhotoGridView.Visibility = Visibility.Visible;
+            EditEnableDisable(true);
+            AlbumEnableDisable(false);
+          
+            AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
+
+            HeaderTextBlock.Text = $"Your Photos in {currentAlbum.Name} Album";
+        }
+
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentPhoto = (Photo)e.ClickedItem;
@@ -219,7 +263,7 @@ namespace PhotoLibraryUWP
             selectedPhotos.Add(currentPhoto);
         }
 
-        private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
+            private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
             currentAlbum.addPhotos(selectedPhotos);
 
@@ -230,14 +274,20 @@ namespace PhotoLibraryUWP
             
             AlbumGridView.Visibility = Visibility.Visible;
             PhotoGridView.Visibility = Visibility.Collapsed;
+            AlbumEnableDisable(true);
+            EditEnableDisable(false);
+            
         }
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
+            
             ManageDataFile  newAlbum = new ManageDataFile();
+          
             if ( newAlbum.DeletePhotoAlbum(CurrentUser, currentAlbum))
             {
                 showAlbuminGrid();
+                DisplayMessage("You album  deleted successfully ", "Delete ALbum ");
             } 
 
         }
@@ -253,23 +303,20 @@ namespace PhotoLibraryUWP
         private void ChangeCoverPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             var setcoverphoto = (Photo)PhotoGridView.SelectedItem;
-            var selectedAlbum = (Album)AlbumGridView.SelectedItem;
-            if (selectedAlbum == null || setcoverphoto == null)
+          
+            if (currentAlbum == null || setcoverphoto== null )
+
             {
+                
                 return;
             }
-            foreach (var album in albumList)
-            {
-                if (album.Name == selectedAlbum.Name && album.Description == selectedAlbum.Description)
-                {
-                    album.CoverPhoto = setcoverphoto;
+                  
+                    currentAlbum.CoverPhoto = setcoverphoto;
                     ManageDataFile NewCoverPhoto = new ManageDataFile();
                     NewCoverPhoto.ChangeCoverPhoto(CurrentUser, currentAlbum , setcoverphoto);
                     AlbumGridView.Visibility = Visibility.Visible;
                     PhotoGridView.Visibility = Visibility.Collapsed;
-                    break;
-                }
-            }
+                    DisplayMessage("You album cover photo has been successfully changed", "Cover photo Changed ");
         }
 
 
@@ -290,26 +337,39 @@ namespace PhotoLibraryUWP
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-             
-            ManageDataFile newPhoto = new ManageDataFile();
-            if (currentPhoto is null) return;
-            
-            if (newPhoto.RemovePhotoFromAlbum(CurrentUser, currentAlbum, currentPhoto))
+
+            if (PhotoGridView.SelectedItems == null) return;
+            if (selectedPhotos is null || selectedPhotos.Count()== 0)
             {
-
-                photoList.Clear();
-                foreach (var photo in currentAlbum.ListofPhotos)
+                DisplayMessage("Select photo(s) for deteting!", "Delete Alarm");
+                return;
+            }
+            ManageDataFile newPhoto = new ManageDataFile();
+            if (newPhoto.RemovePhotoFromAlbum(CurrentUser, currentAlbum, selectedPhotos))
+            {
+              
+                foreach (var photo in selectedPhotos)
                 {
-                    if (photo != currentPhoto)
-                    photoList.Add(photo);
+                    currentAlbum.ListofPhotos.Remove(photo);
+                    photoList.Remove(photo);
                 }
-
+                DisplayMessage("Your photo(s) have been deleted successfully!!", "Delete Successful");
+                selectedPhotos = null;
             }
             else
             {
+
             }
 
             
         }
+
+        private void  DisplayMessage(string message ,string Title)
+        {
+           
+            MessageDialog messageDialog = new MessageDialog(message, Title);
+             messageDialog.ShowAsync();
+        }
+       
     }
 }
