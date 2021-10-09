@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace PhotoLibraryUWP.Model
 {
@@ -16,19 +17,21 @@ namespace PhotoLibraryUWP.Model
         
         public List<PhotoAlbumInformation> FetchingPhotoAlbumInformation(User AppUser)
         {
-             
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
+           DirectoryInfo d = new DirectoryInfo(localPath+ $"\\File" );
+           String Filepath = $"{d}\\PhotoAlbumInformation.csv";
 
             FileInfo F = new FileInfo(Filepath);
-             if (!F.Exists)
+            if (!F.Exists)
             {
                 F.Create();
-
             }
+            else
+            {
+               
+            }
+
             List<PhotoAlbumInformation> PhotoAlbumList;
 
             PhotoAlbumList = File.ReadAllLines(Filepath)
@@ -113,9 +116,8 @@ namespace PhotoLibraryUWP.Model
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
             String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-                       
+
 
             foreach (Photo selectedphoto in Photos)
             {
@@ -135,9 +137,7 @@ namespace PhotoLibraryUWP.Model
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
             String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
@@ -163,11 +163,9 @@ namespace PhotoLibraryUWP.Model
 
         public bool DeletePhotoFormAlbum(User UserInfo, Album NewAlbum ,List<Photo> SelectedPhoto)
         {
-
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
             String Filepath = $"{d}\\PhotoAlbumInformation.csv";
 
 
