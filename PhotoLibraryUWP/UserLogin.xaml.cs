@@ -30,6 +30,10 @@ namespace PhotoLibraryUWP
         {
             this.InitializeComponent();
             //Cur  rent = this;
+            UsernameTextBox.TabIndex = 0;
+            PasswordTextBox.TabIndex = 1;
+            LoginButton.TabIndex = 3;
+            
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -47,9 +51,7 @@ namespace PhotoLibraryUWP
 
                 // Initialize a new MessageDialog instance
                 MessageDialog messageDialog = new MessageDialog(message, "Authentication Error");
-                
-
-                messageDialog.ShowAsync();
+                 messageDialog.ShowAsync();
 
                 return;
 

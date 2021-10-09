@@ -16,14 +16,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-            <!-- <TextBlock Text="{Binding Title, StringFormat=This is {0}}">#endregion-->
-            
-              
-            <TextBlock Name="Username"
-                       DataContext="{Binding Source={Binding APPUsername ,Mode = TwoWay, UpdateSourceTrigger = PropertyChanged }} Margin="10,0,0,10"
-                         >  
+
+
+        <TextBlock Name="UsernameTextbox" Margin="10,0,0,10" FontWeight="Bold" FontSize="12">  
             </TextBlock>
 
+          
         <SplitView Grid.Row="1"
                    Name="MySplitView"
                    DisplayMode="Inline"
@@ -36,13 +34,13 @@
                 <ListView Name="MainFeatureListview"
                           IsItemClickEnabled="True"
                           ItemClick="MainFeatureListview_ItemClick">
-                    <ListViewItem Name="AllPhotos" 
-                                  Content="AllPhotos" >
+                    <ListViewItem Name="AllPhotos" FontWeight="Bold" FontSize="12"
+                                  Content="All Photos" >
                     </ListViewItem>
-                    <ListViewItem Name="MyPhotos" 
-                                 Content="MyPhotos" >
+                    <ListViewItem Name="MyPhotos" FontWeight="Bold" FontSize="12"
+                                 Content="My Photos" >
                     </ListViewItem>
-                    <ListViewItem Name="MyAlbums" FontSize="18" 
+                    <ListViewItem Name="MyAlbums" FontWeight="Bold" FontSize="12"
                                   Content="My Albums" >
 
                     </ListViewItem>
@@ -61,7 +59,7 @@
                         <CommandBar.Content>
                             <TextBlock Name="HeaderTextBlock" Text="All photo" FontSize="24" Margin="20,0,20,0"/>
                         </CommandBar.Content>
-                        <AppBarButton Icon="Back" Name="BackButton" Label="Back" />
+                        <!--<AppBarButton Icon="Back" Name="BackButton" Label="Back" />-->
                         <AppBarButton Icon="NewFolder" Name="NewAlbumButton" Label="New Album" Click="NewAlbumButton_Click" ToolTipService.ToolTip="New Album"/>
                         <AppBarButton Icon="Edit" Name="EditAlbumButton" Label="Edit Album" Click="EditAlbumButton_Click" ToolTipService.ToolTip="Edit Album"/>
                         <AppBarButton Icon="Delete" Name="DeleteAlbumButton" Label="Delete Album" Click="DeleteAlbumButton_Click" ToolTipService.ToolTip="Delete Album"/>
@@ -95,8 +93,8 @@
                               ItemsSource="{x:Bind albumList, Mode=OneWay}"    
                               ItemClick="AlbumGridView_ItemClick"
                               SelectionChanged="AlbumGridView_SelectionChanged"                            
-                              Visibility="Collapsed">
-
+                              Visibility="Collapsed"
+                              DoubleTapped="AlbumGridView_DoubleTapped">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Album">
                                 <Grid MinHeight="125" MinWidth="125">
@@ -134,6 +132,22 @@
                 </StackPanel>
             </Border>
         </Popup>
-
+        <!--Below code is for Edit album Popup window-->
+        <Popup HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2"
+                   x:Name="EditAlbumPopup" Width="500" Height="500" >
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}"
+                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        BorderThickness="4" Width="500" Height="500">
+                <StackPanel Orientation="Vertical" >
+                    <TextBox Name="AlbumNewNameTxt" Text="{x:Bind currentAlbum.Name}" Header="Album New Name" Width="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <TextBox Name="AlbumNewDescriptionTxt" Header="New Description"  TextWrapping="Wrap" MaxHeight="150" MinHeight="100" AcceptsReturn="True"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto" Width="400 " HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,50,30,10" FontSize="20" />
+                    <RelativePanel>
+                        <Button Name="EditAlbumDetailsButton" Content="Edit Album Details" HorizontalAlignment="Center" VerticalAlignment="Center" Click="EditAlbumDetailsButton_Click" FontSize="25" Margin="30,30,0,0" Padding="10" />
+                        <Button Name="CloseEditPopupButton" Content="Close" HorizontalAlignment="Center" RelativePanel.RightOf="EditAlbumDetailsButton" VerticalAlignment="Center" Click="CloseEditPopupButton_Click" FontSize="25" Margin="50,30,0,0" Padding="10"/>
+                    </RelativePanel>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </Page>
