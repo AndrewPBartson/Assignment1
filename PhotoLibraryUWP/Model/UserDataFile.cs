@@ -11,26 +11,32 @@ namespace PhotoLibraryUWP.Model
 {
     class UserDataFile
     {
-        
-        
-        
-        
-        public List<PhotoAlbumInformation> FetchingPhotoAlbumInformation(User AppUser)
+
+
+        private String Filepath;
+
+        private void CreateFile()
         {
+            
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
-           DirectoryInfo d = new DirectoryInfo(localPath+ $"\\File" );
-           String Filepath = $"{d}\\PhotoAlbumInformation.csv";
+            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
+
+            Filepath = $"{d}\\PhotoAlbumInformation.csv";
 
             FileInfo F = new FileInfo(Filepath);
             if (!F.Exists)
             {
+            
                 F.Create();
+
             }
-            else
-            {
-               
-            }
+
+        }
+
+        public List<PhotoAlbumInformation> FetchingPhotoAlbumInformation(User AppUser)
+        {
+            CreateFile();
 
             List<PhotoAlbumInformation> PhotoAlbumList;
 
@@ -53,7 +59,6 @@ namespace PhotoLibraryUWP.Model
             PhotoAlbumInformationList.Albumname = Convert.ToString(values[1]).Trim();
             PhotoAlbumInformationList.AlbumDescription = Convert.ToString(values[2]).Trim();
             PhotoAlbumInformationList.PhotoName = Convert.ToString(values[3]).Trim();
-            //PhotoAlbumInformationList.PhotoPath = Convert.ToString(values[4]).Trim();
             myValueAsEnum = (PhotoCategory)(Convert.ToInt32(values[4]));
             PhotoAlbumInformationList.Category = myValueAsEnum;
             PhotoAlbumInformationList.PhotoPath = $"/Assets/Photos/{myValueAsEnum}/{Convert.ToString(values[3]).Trim()}.png";
@@ -66,18 +71,7 @@ namespace PhotoLibraryUWP.Model
         public void SavingPhotoAlbum(User UserInfo, Album NewAlbum, List<Photo> Photos, Photo Coverphoto)
         {
 
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
-            FileInfo F = new FileInfo(Filepath);
-            if (!F.Exists)
-            {
-                F.Create();
-
-            }
+          
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
@@ -113,12 +107,7 @@ namespace PhotoLibraryUWP.Model
 
         public  void AddingPhotoToCurrentAlbum(User UserInfo, Album NewAlbum, List<Photo> Photos )
         {
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
-
+            
             foreach (Photo selectedphoto in Photos)
             {
                 string NewuserAlbuminfo = string.Join(',', UserInfo.Name + "," + NewAlbum.Name + ',' +
@@ -134,11 +123,7 @@ namespace PhotoLibraryUWP.Model
         public bool DeleteAlbum(User UserInfo, Album NewAlbum)
         {
 
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
+           
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
 
@@ -163,12 +148,7 @@ namespace PhotoLibraryUWP.Model
 
         public bool DeletePhotoFormAlbum(User UserInfo, Album NewAlbum ,List<Photo> SelectedPhoto)
         {
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
-
+            
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
             
@@ -215,12 +195,7 @@ namespace PhotoLibraryUWP.Model
         public bool ChangeCoverPhoto(User UserInfo, Album NewAlbum, Photo SelectedPhoto)
         {
 
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
-
+            
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();
             PhotoAlbumList = FetchingPhotoAlbumInformation(UserInfo);
