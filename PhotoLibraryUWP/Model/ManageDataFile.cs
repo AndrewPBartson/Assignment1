@@ -33,35 +33,29 @@ namespace PhotoLibraryUWP.Model
             UserDataFile ReadingFile = new UserDataFile();
             List<PhotoAlbumInformation> MyALbumsInfo = ReadingFile.FetchingPhotoAlbumInformation(UserManagement.CurrentAppUser);
             List<Album> Albums = new List<Album>();
-              
-            List<PhotoAlbumInformation> MyALbumsInfo1;
-            MyALbumsInfo1 = MyALbumsInfo;
-            var ALbumCount=  MyALbumsInfo.Where(m => m.UserInfo.Name == UserManagement.CurrentAppUser.Name && m.IsCoverphoto).ToList();
-            foreach (var listItem in ALbumCount)
+            foreach (var listItem in MyALbumsInfo.Where(x=>x.UserInfo.Name == UserManagement.CurrentAppUser.Name))
             {
-                Album album = new Album();
-                album.Name = listItem.Albumname;
-                album.Description = listItem.AlbumDescription;
-                List<Photo> Photos = new List<Photo>();
-
-               var  PhotoCount = MyALbumsInfo1.Where(m => m.UserInfo.Name == UserManagement.CurrentAppUser.Name &&
-                                                m.Albumname == listItem.Albumname &&
-                                                 m.AlbumDescription == listItem.AlbumDescription).ToList();
-
-                foreach (var photoitem in PhotoCount)
+                var existingAlbum = Albums.Where(x => x.Name == listItem.Albumname && x.Description == listItem.AlbumDescription).FirstOrDefault();
+                if (existingAlbum == null)
                 {
-                    Photo Nphoto = new Photo();
-                    Nphoto.Name = photoitem.PhotoName;
-                    Nphoto.PhotoPath = photoitem.PhotoPath;
-                    Nphoto.Category = photoitem.Category;
-                    Photos.Add(Nphoto);
-                    album.ListofPhotos = Photos;
-                    if (photoitem.IsCoverphoto) album.CoverPhoto = Nphoto;
+                    existingAlbum = new Album();
+                    existingAlbum.Name = listItem.Albumname;
+                    existingAlbum.Description = listItem.AlbumDescription;
+                    existingAlbum.ListofPhotos = new List<Photo>();
+                    Albums.Add(existingAlbum);
                 }
-              
 
-                Albums.Add(album);
+                var photoToBeAdded = new Photo() { Name = listItem.PhotoName, PhotoPath = listItem.PhotoPath, Category = listItem.Category };
+                existingAlbum.ListofPhotos.Add(photoToBeAdded);
+
+                if (listItem.IsCoverphoto)
+                {
+                    existingAlbum.CoverPhoto = photoToBeAdded;
+                }
+
+                
             }
+
             return Albums;
         }
 

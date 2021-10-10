@@ -8,6 +8,7 @@ namespace PhotoLibraryUWP.Model
 {
     public enum PhotoCategory
     {
+        None = 0,
         Animals = 1,
         Beaches = 2,
         Birds = 3,

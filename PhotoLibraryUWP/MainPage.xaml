@@ -66,7 +66,7 @@
                         <AppBarButton Icon="Save" Name="SaveAlbumButton" Label="Save Album" Click="SaveAlbumButton_Click" ToolTipService.ToolTip="Save Album"/>
                         <AppBarButton Icon="Add" Name="AddPhotoButton" Label="Add Photo" Click="AddPhotoButton_Click" ToolTipService.ToolTip="Add Photo"/>
                         <AppBarButton Icon="Remove" Name="RemovePhotoButton" Label="Remove" Click="RemoveButton_Click" ToolTipService.ToolTip="Remove Photo"/>
-                        <AppBarButton Icon="Webcam" Name="ChangeCoverPhotoButton" Label="Change Coverphoto" Click="ChangeCoverPhotoButton_Click" ToolTipService.ToolTip="Change Cover Photo"/>
+                        <AppBarButton Icon="Webcam" Name="ChangeCoverPhotoButton" Label="Change Coverphoto" Click="ChangeCoverPhotoButton_Click" ToolTipService.ToolTip="Change Cover Photo" IsEnabled="False"/>
                     </CommandBar>
 
                     <!--This is the Gridview for PhotoList-->

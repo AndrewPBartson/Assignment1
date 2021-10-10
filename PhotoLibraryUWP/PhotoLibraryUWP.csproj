@@ -198,6 +198,7 @@
     <Content Include="Assets\Photos\Cities\hongkong_night.png" />
     <Content Include="Assets\Photos\Flowers\flowers_veggies.jpg" />
     <Content Include="Assets\Photos\Flowers\flowers_veggies.png" />
+    <Content Include="Assets\Photos\None\NoPhoto.png" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.jpg" />
     <Content Include="Assets\Photos\Trees\redwood_sunrays.png" />
     <None Include="Files\PhotoAlbuminformation.csv">
