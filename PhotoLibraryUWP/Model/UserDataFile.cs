@@ -17,11 +17,11 @@ namespace PhotoLibraryUWP.Model
 
         private void CreateFile()
         {
-            
+
             var localPath = ApplicationData.Current.LocalFolder.Path;
 
             DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
+            //DirectoryInfo d = new DirectoryInfo(localPath);
             if (!d.Exists) d.Create();
 
             Filepath = $"{d}\\PhotoAlbumInformation.csv";
@@ -29,11 +29,15 @@ namespace PhotoLibraryUWP.Model
             FileInfo F = new FileInfo(Filepath);
             if (!F.Exists)
             {
-            
+                d.Refresh();
                 F.Create();
-
+              
+                //List<string> ColumnTitle = new List<string>();
+                //ColumnTitle.Add(string.Join(',', "UserName" + "," + "Albumname" + ',' +
+                //                        "AlbumDescription" + ','+"PhotoName" + ',' + "Category" + ',' + "IsCoverphoto"));
+                //File.WriteAllLines(Filepath, ColumnTitle);
+          
             }
-
         }
 
         public List<PhotoAlbumInformation> FetchingPhotoAlbumInformation(User AppUser)
@@ -42,12 +46,18 @@ namespace PhotoLibraryUWP.Model
 
             List<PhotoAlbumInformation> PhotoAlbumList;
 
-            PhotoAlbumList = File.ReadAllLines(Filepath)
+
+            
+               PhotoAlbumList = File.ReadAllLines(Filepath)
                .Select(user => FromCsv(user))
+               //.Skip(1)
                .ToList();
            
             return (PhotoAlbumList);
+
+            
         }
+
 
         public PhotoAlbumInformation FromCsv(string csvLine)
         {
@@ -98,6 +108,7 @@ namespace PhotoLibraryUWP.Model
                 string NewuserAlbuminfo = string.Join(',', UserInfo.Name + "," + NewAlbum.Name + ',' +
                     NewAlbum.Description + ',' + selectedphoto.Name + ',' + ((int)selectedphoto.Category) + ','  + iscoverphoto);
 
+
                 File.AppendAllText(Filepath, NewuserAlbuminfo + Environment.NewLine);
 
                
@@ -133,18 +144,29 @@ namespace PhotoLibraryUWP.Model
                                                m.Albumname == NewAlbum.Name &&
                                                 m.AlbumDescription == NewAlbum.Description)).ToList();
             File.Delete(Filepath);
-
-           List<string> NewuserAlbuminfo=new List<string>();
-
+        
+            List<string> NewuserAlbuminfo=new List<string>();
+            string a;
             foreach (var validdata in Validdata)
             {
                 NewuserAlbuminfo.Add(string.Join(',', validdata.UserInfo.Name + "," + validdata.Albumname + ',' +
-                                      validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
+                                        validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto));
 
-            
                 File.WriteAllLines(Filepath, NewuserAlbuminfo);
+                //a = string.Join(',', validdata.UserInfo.Name + "," + validdata.Albumname + ',' +
+                //                        validdata.AlbumDescription + ',' + validdata.PhotoName + ',' + ((int)validdata.Category) + ',' + validdata.IsCoverphoto);
+
+                //File.AppendAllText(Filepath, a + Environment.NewLine);
             }
-           
+
+            if (Validdata.Count == 0)
+            {
+         //       CreateFile();
+
+              //  File.WriteAllLines(Filepath, new string[] { string.Empty });
+            }
+               
+
            return true;
         }
 
@@ -197,11 +219,7 @@ namespace PhotoLibraryUWP.Model
         public bool ChangeCoverPhoto(User UserInfo, Album NewAlbum, Photo SelectedPhoto)
         {
 
-            var localPath = ApplicationData.Current.LocalFolder.Path;
-
-            DirectoryInfo d = new DirectoryInfo(localPath + $"\\File");
-
-            String Filepath = $"{d}\\PhotoAlbumInformation.csv";
+          
 
 
             List<PhotoAlbumInformation> PhotoAlbumList = new List<PhotoAlbumInformation>();

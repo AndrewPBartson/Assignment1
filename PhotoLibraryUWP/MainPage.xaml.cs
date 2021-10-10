@@ -155,16 +155,23 @@ namespace PhotoLibraryUWP
 
         private void NewAlbumButton_Click(object sender, RoutedEventArgs e)
         {
+            EditAlbumButton.IsEnabled = false;
+            DeleteAlbumButton.IsEnabled = false;
             if (!NewAlbumPopup.IsOpen)
             {
                 NewAlbumPopup.IsOpen = true;
             }
+            
         }
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-         
 
+            if (currentAlbum is null) 
+            {
+                DisplayMessage("Album need to be selceted ", "Edit");
+                return;
+            }
             if (!EditAlbumPopup.IsOpen)
             {
                 EditAlbumPopup.IsOpen = true;
@@ -258,22 +265,36 @@ namespace PhotoLibraryUWP
         private void PhotoGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             currentPhoto = (Photo)e.ClickedItem;
+
+      
+
             if (selectedPhotos == null)
             {
                 selectedPhotos = new List<Photo>();
             }
+            
             selectedPhotos.Add(currentPhoto);
+           
         }
 
-            private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
+      
+        private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            currentAlbum.addPhotos(selectedPhotos);
+
+            var filtered = selectedPhotos
+                  .Where(x => !currentAlbum.ListofPhotos.Any(y => (y.Name == x.Name))).ToList();
+
+
+            //   currentAlbum.addPhotos(selectedPhotos);
+            if (filtered.Count > 0)
+            { 
+            currentAlbum.addPhotos(filtered);
 
             UserDataFile newAlbum = new UserDataFile();
 
             newAlbum.SavingPhotoAlbum(CurrentUser, currentAlbum, selectedPhotos, selectedPhotos.FirstOrDefault());
-           
-            
+            }
+
             AlbumGridView.Visibility = Visibility.Visible;
             PhotoGridView.Visibility = Visibility.Collapsed;
             AlbumEnableDisable(true);
@@ -283,7 +304,13 @@ namespace PhotoLibraryUWP
 
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
+            if (currentAlbum is null)
+            {
+                DisplayMessage("Album need to be selceted for deleting ", "Delete");
+                return;
+            }
+
             ManageDataFile  newAlbum = new ManageDataFile();
           
             if ( newAlbum.DeletePhotoAlbum(CurrentUser, currentAlbum))
@@ -370,7 +397,7 @@ namespace PhotoLibraryUWP
         {
            
             MessageDialog messageDialog = new MessageDialog(message, Title);
-             messageDialog.ShowAsync();
+            _ = messageDialog.ShowAsync();
         }
        
     }
