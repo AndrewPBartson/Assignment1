@@ -340,8 +340,7 @@ namespace PhotoLibraryUWP
             currentAlbum.CoverPhoto = setcoverphoto;
             ManageDataFile NewCoverPhoto = new ManageDataFile();
             NewCoverPhoto.ChangeCoverPhoto(CurrentUser, currentAlbum, setcoverphoto);
-            AlbumGridView.Visibility = Visibility.Visible;
-            PhotoGridView.Visibility = Visibility.Collapsed;
+            showAlbuminGrid();
             DisplayMessage("You album cover photo has been successfully changed", "Cover photo Changed ");
         }
 
