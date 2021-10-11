@@ -234,7 +234,7 @@ namespace PhotoLibraryUWP
                 EditAlbumPopup.IsOpen = false;
             }
             showAlbuminGrid();
-            DisplayMessage("You Album name an descriotion successfully changed", "Edit ALbum ");
+            DisplayMessage("You Album name an description successfully changed", "Edit ALbum ");
         }
 
         private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)
