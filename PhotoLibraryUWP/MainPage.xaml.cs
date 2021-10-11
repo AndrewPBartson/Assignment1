@@ -120,6 +120,21 @@ namespace PhotoLibraryUWP
 
         private void AlbumGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            currentAlbum = (Album)AlbumGridView.SelectedItem;
+
+            // Remove old selection
+            var currentlySelectedAlbum = albumList.Where(x => x.IsSelected).FirstOrDefault();
+            if (currentlySelectedAlbum != null && currentAlbum != currentlySelectedAlbum)
+            {
+                currentlySelectedAlbum.IsSelected = false;
+            }
+
+            if (currentAlbum != null)
+            {
+                currentAlbum.IsSelected = true;
+            }
+
+            selectedPhotos = new List<Photo>();
             NewAlbumButton.IsEnabled = !(AlbumGridView.SelectedItems.Count > 0);
             DeleteAlbumButton.IsEnabled = !NewAlbumButton.IsEnabled;
             if (AlbumGridView.SelectedItem != null && !((Album)AlbumGridView.SelectedItem).ListofPhotos.Any())
@@ -134,7 +149,7 @@ namespace PhotoLibraryUWP
 
         private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(AlbumGridView.SelectedItem != null && PhotoGridView.SelectedItems != null && PhotoGridView.SelectedItems.Count == 1)
+            if (AlbumGridView.SelectedItem != null && PhotoGridView.SelectedItems != null && PhotoGridView.SelectedItems.Count == 1)
             {
                 ChangeCoverPhotoButton.IsEnabled = true;
             }
@@ -243,19 +258,6 @@ namespace PhotoLibraryUWP
 
         }
 
-        private async void AlbumGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            currentAlbum = (Album)e.ClickedItem;
-            selectedPhotos = new List<Photo>();
-
-            var gridView = sender as GridView;
-            if (e.ClickedItem == gridView.SelectedItem)
-            {
-                await Task.Delay(10);
-                gridView.SelectedItem = null;
-            }
-        }
-
         private void AlbumGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             AlbumGridView.Visibility = Visibility.Collapsed;
@@ -263,6 +265,11 @@ namespace PhotoLibraryUWP
             EditEnableDisable(true);
             AlbumEnableDisable(false);
 
+            var clickedAlbum = (Album)((Windows.UI.Xaml.FrameworkElement)sender).DataContext;
+            if (currentAlbum == null || currentAlbum != clickedAlbum)
+            {
+                currentAlbum = clickedAlbum;
+            }
             AlbumManager.displayUserPhotosByAlbum(currentAlbum, photoList);
 
             HeaderTextBlock.Text = $"Your Photos in {currentAlbum.Name} Album";
@@ -286,11 +293,8 @@ namespace PhotoLibraryUWP
 
             newAlbum.SavingPhotoAlbum(CurrentUser, currentAlbum, selectedPhotos, selectedPhotos.FirstOrDefault());
 
-
-            AlbumGridView.Visibility = Visibility.Visible;
-            PhotoGridView.Visibility = Visibility.Collapsed;
-            AlbumEnableDisable(true);
-            EditEnableDisable(false);
+            ClearAlbumGridViewSelection();
+            showAlbuminGrid();
 
         }
 
@@ -311,7 +315,14 @@ namespace PhotoLibraryUWP
         {
             if (AlbumGridView.SelectedItems != null && AlbumGridView.SelectedItems.Count > 0)
             {
+                var selectedAlbum = ((Album)AlbumGridView.SelectedItem);
+                if (selectedAlbum != null && selectedAlbum.IsSelected == true)
+                {
+                    selectedAlbum.IsSelected = false;
+                }
+
                 AlbumGridView.SelectedItem = null;
+                currentAlbum = null;
             }
         }
 
@@ -384,12 +395,40 @@ namespace PhotoLibraryUWP
 
         }
 
-        private void DisplayMessage(string message, string Title)
+        private async void DisplayMessage(string message, string Title)
         {
 
             MessageDialog messageDialog = new MessageDialog(message, Title);
-            messageDialog.ShowAsync();
+            await messageDialog.ShowAsync();
         }
 
+        private void AlbumSelectCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var temp = e.OriginalSource;
+            var checkedAlbum = (Album)((Windows.UI.Xaml.FrameworkElement)e.OriginalSource).DataContext;
+
+            // Remove old selection
+            var currentlySelectedAlbum = albumList.Where(x => x.IsSelected).FirstOrDefault();
+            if (currentlySelectedAlbum != null && checkedAlbum != currentlySelectedAlbum)
+            {
+                currentlySelectedAlbum.IsSelected = false;
+            }
+
+            checkedAlbum.IsSelected = true;
+            if (AlbumGridView.SelectedItem != checkedAlbum)
+            {
+                AlbumGridView.SelectedItem = checkedAlbum;
+            }
+        }
+
+        private void AlbumSelectCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var uncheckedAlbum = (Album)((Windows.UI.Xaml.FrameworkElement)e.OriginalSource).DataContext;
+            if (AlbumGridView.SelectedItem != null && uncheckedAlbum == AlbumGridView.SelectedItem)
+            {
+                uncheckedAlbum.IsSelected = false;
+                AlbumGridView.SelectedItem = null;
+            }
+        }
     }
 }

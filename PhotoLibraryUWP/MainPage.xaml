@@ -9,19 +9,19 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
      >
-   
-    <Grid> 
-        <Grid.RowDefinitions> 
+
+    <Grid>
+        <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
 
 
-        <TextBlock Name="UsernameTextbox" Margin="10,0,0,10" FontWeight="Bold" FontSize="12">  
-            </TextBlock>
+        <TextBlock Name="UsernameTextbox" Margin="10,0,0,10" FontWeight="Bold" FontSize="12">
+        </TextBlock>
 
-          
+
         <SplitView Grid.Row="1"
                    Name="MySplitView"
                    DisplayMode="Inline"
@@ -89,23 +89,23 @@
                     <GridView Grid.Row="1" 
                               Name="AlbumGridView"
                               SelectionMode="Single"
-                              IsItemClickEnabled="True"
+                              IsItemClickEnabled="False"
                               ItemsSource="{x:Bind albumList, Mode=OneWay}"    
-                              ItemClick="AlbumGridView_ItemClick"
                               SelectionChanged="AlbumGridView_SelectionChanged"                            
-                              Visibility="Collapsed"
-                              DoubleTapped="AlbumGridView_DoubleTapped">
+                              Visibility="Collapsed" IsMultiSelectCheckBoxEnabled="True">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Album">
-                                <Grid MinHeight="125" MinWidth="125">
+                                <Grid MinHeight="125" MinWidth="125" DoubleTapped="AlbumGridView_DoubleTapped" >
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding Path=CoverPhoto.PhotoPath}" Grid.Row="0" Height="120" Width="101" />
-                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,5,0,5"/>
-                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                                    <CheckBox x:Name="AlbumSelectCheckBox" Height="20" Width="20" FlowDirection="RightToLeft" Grid.Row="0" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" Checked="AlbumSelectCheckBox_Checked" Unchecked="AlbumSelectCheckBox_Unchecked"/>
+                                    <Image Source="{Binding Path=CoverPhoto.PhotoPath}" Grid.Row="1" Height="120" Width="101" />
+                                    <TextBlock x:Name="AlbumNameTextblock" Text="{x:Bind Name}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                                    <TextBlock x:Name="AlbumDescTextBlock" Text="{x:Bind Description}" Grid.Row="3" HorizontalAlignment="Center" Margin="0,5,0,5"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
