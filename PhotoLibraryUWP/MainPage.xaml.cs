@@ -243,6 +243,11 @@ namespace PhotoLibraryUWP
             DisplayConfirmationDialog("Add Photo dialog", $"Your photo(s) have been added successfully to album:{currentAlbum.Name}!!");
         }
 
+        private void PhotoGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
         private void ClearAlbumGridViewSelection()
         {
             if (AlbumGridView.SelectedItems != null && AlbumGridView.SelectedItems.Count > 0)
