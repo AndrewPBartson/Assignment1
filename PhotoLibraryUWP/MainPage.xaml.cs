@@ -154,7 +154,10 @@ namespace PhotoLibraryUWP
         }
 
         private void NewAlbumButton_Click(object sender, RoutedEventArgs e)
+
         {
+            EditAlbumButton.IsEnabled = false;
+            DeleteAlbumButton.IsEnabled = false;
             if (!NewAlbumPopup.IsOpen)
             {
                 NewAlbumPopup.IsOpen = true;
@@ -163,8 +166,12 @@ namespace PhotoLibraryUWP
 
         private void EditAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-         
 
+            if (currentAlbum is null)
+            {
+                DisplayMessage("Album need to be selceted ", "Edit");
+                return;
+            }
             if (!EditAlbumPopup.IsOpen)
             {
                 EditAlbumPopup.IsOpen = true;
@@ -205,7 +212,7 @@ namespace PhotoLibraryUWP
                 EditAlbumPopup.IsOpen = false;
             }
             showAlbuminGrid();
-            DisplayMessage("You Album name an descriotion successfully changed", "Edit ALbum ");
+            DisplayMessage("You Album name and descriotion successfully changed", "Edit ALbum ");
         }
 
         private void CloseEditPopupButton_Click(object sender, RoutedEventArgs e)
@@ -265,26 +272,38 @@ namespace PhotoLibraryUWP
             selectedPhotos.Add(currentPhoto);
         }
 
-            private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
+        private void SaveAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            currentAlbum.addPhotos(selectedPhotos);
+            var filtered = selectedPhotos
+                .Where(x => !currentAlbum.ListofPhotos.Any(y => (y.Name == x.Name))).ToList();
 
-            UserDataFile newAlbum = new UserDataFile();
 
-            newAlbum.SavingPhotoAlbum(CurrentUser, currentAlbum, selectedPhotos, selectedPhotos.FirstOrDefault());
-           
-            
-            AlbumGridView.Visibility = Visibility.Visible;
-            PhotoGridView.Visibility = Visibility.Collapsed;
-            AlbumEnableDisable(true);
-            EditEnableDisable(false);
+            //   currentAlbum.addPhotos(selectedPhotos);
+            if (filtered.Count > 0)
+            {
+                currentAlbum.addPhotos(filtered);
+
+                UserDataFile newAlbum = new UserDataFile();
+
+                newAlbum.SavingPhotoAlbum(CurrentUser, currentAlbum, selectedPhotos, selectedPhotos.FirstOrDefault());
+            }
+
+                AlbumGridView.Visibility = Visibility.Visible;
+                PhotoGridView.Visibility = Visibility.Collapsed;
+                AlbumEnableDisable(true);
+                EditEnableDisable(false);
+
             
         }
-
         private void DeleteAlbumButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            ManageDataFile  newAlbum = new ManageDataFile();
+
+                if (currentAlbum is null)
+                {
+                    DisplayMessage("Album need to be selceted for deleting ", "Delete");
+                    return;
+                }
+                ManageDataFile  newAlbum = new ManageDataFile();
           
             if ( newAlbum.DeletePhotoAlbum(CurrentUser, currentAlbum))
             {
